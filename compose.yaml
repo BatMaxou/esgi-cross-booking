@@ -1,0 +1,25 @@
+services:
+  php:
+    build:
+      context: .devops/docker/php
+    volumes:
+      - .:/srv
+
+  web:
+    depends_on:
+      - php
+    build:
+      context: .devops/docker/nginx/symfony
+    volumes:
+      - ./public:/srv/public
+
+  db:
+    image: mariadb:10.3
+    volumes:
+      - db_data:/var/lib/mysql
+
+  mailbox:
+    image: mailhog/mailhog
+
+volumes:
+  db_data:
