@@ -39,19 +39,15 @@ Le projet comprendra au moins 10 entités avec les relations suivantes :
 2. **Raft** : représente les radeaux utilisés pour les traversées.
 3. **Crossing** : représente les traversées programmées.
 4. **Reservation** : représente les réservations effectuées par les utilisateurs.
-5. **Route** : représente les itinéraires entre la France et l’Angleterre.
-6. **Review** : représente les avis laissés par les utilisateurs.
-7. **AdminSettings** : représente les paramètres administratifs du site.
-8. **Port** : représente les ports de départ et d’arrivée des traversées.
-9. **Schedule** : représente les horaires spécifiques associés aux traversées.
-10. **WeatherCondition** : représente les conditions météorologiques associées à une traversée.
-11. **SiteMessage** : représente les bandeaux texte administrable affichés sur le site.
+5. **Port** : représente les ports de départ et d’arrivée des traversées.
+6. **Route** : représente les itinéraires entre la France et l’Angleterre.
+7. **Review** : représente les avis laissés par les utilisateurs.
+8. **SiteMessage** : représente les bandeaux texte administrable affichés sur le site.
 
 ### 4.2 Relations entre les Entités
 
 - **ManyToMany** :
 
-  - User <-> Route : un utilisateur peut préférer plusieurs itinéraires, et un itinéraire peut être préféré par plusieurs utilisateurs.
   - Crossing <-> Raft : une traversée peut inclure plusieurs radeaux, et un radeau peut être utilisé pour plusieurs traversées.
 
 - **OneToMany** :
@@ -60,10 +56,8 @@ Le projet comprendra au moins 10 entités avec les relations suivantes :
   - Crossing -> Reservation : une traversée peut avoir plusieurs réservations.
   - Route -> Crossing : un itinéraire peut inclure plusieurs traversées.
   - User -> Review : un utilisateur peut laisser plusieurs avis.
+  - Review -> Review : un avis peut être une réponse à un autre avis.
   - Port -> Crossing : un port peut être associé à plusieurs traversées (départ ou arrivée).
-  - Crossing -> Schedule : une traversée peut avoir plusieurs horaires associés.
-  - Crossing -> WeatherCondition : une traversée peut être affectée par plusieurs conditions météorologiques.
-  - Raft -> CrewMember : un radeau peut avoir plusieurs membres d’équipage affectés.
 
 ## 5. Pages du Site
 
