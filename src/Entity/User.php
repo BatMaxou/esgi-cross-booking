@@ -2,14 +2,18 @@
 
 namespace App\Entity;
 
+use App\Entity\Reservation\SimpleReservation;
 use App\Enum\RoleEnum;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,17 +29,13 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    private ?string $plainPassword = null;
+
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(enumType: RoleEnum::class)]
-    private ?RoleEnum $role = null;
-
-    /**
-     * @var Collection<int, Reservation>
-     */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'passenger')]
-    private Collection $reservations;
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: RoleEnum::class)]
+    private array $roles = [];
 
     /**
      * @var Collection<int, Review>
@@ -43,10 +43,30 @@ class User
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'author')]
     private Collection $reviews;
 
+    /**
+     * @var Collection<int, Team>
+     */
+    #[ORM\ManyToMany(targetEntity: Team::class, mappedBy: 'members')]
+    private Collection $teams;
+
+    /**
+     * @var Collection<int, Team>
+     */
+    #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'creator')]
+    private Collection $ownedTeams;
+
+    /**
+     * @var Collection<int, SimpleReservation>
+     */
+    #[ORM\OneToMany(targetEntity: SimpleReservation::class, mappedBy: 'passenger')]
+    private Collection $simpleReservations;
+
     public function __construct()
     {
-        $this->reservations = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->teams = new ArrayCollection();
+        $this->ownedTeams = new ArrayCollection();
+        $this->simpleReservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,55 +110,23 @@ class User
         return $this;
     }
 
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password, $alreadyHashed = false): static
     {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getRole(): ?RoleEnum
-    {
-        return $this->role;
-    }
-
-    public function setRole(RoleEnum $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Reservation>
-     */
-    public function getReservations(): Collection
-    {
-        return $this->reservations;
-    }
-
-    public function addReservation(Reservation $reservation): static
-    {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations->add($reservation);
-            $reservation->setPassenger($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReservation(Reservation $reservation): static
-    {
-        if ($this->reservations->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
-            if ($reservation->getPassenger() === $this) {
-                $reservation->setPassenger(null);
-            }
+        if ($alreadyHashed) {
+            $this->password = $password;
+        } else {
+            $this->plainPassword = $password;
+            $this->password = null;
         }
 
         return $this;
@@ -168,6 +156,133 @@ class User
             // set the owning side to null (unless already changed)
             if ($review->getAuthor() === $this) {
                 $review->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return RoleEnum[]
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function addRole(RoleEnum $role): static
+    {
+        $this->roles[] = $role;
+
+        return $this;
+    }
+
+    public function hasRole(RoleEnum $role): bool
+    {
+        return in_array($role->value, $this->roles, true);
+    }
+
+    public function isBanned(): bool
+    {
+        return $this->hasRole(RoleEnum::BANNED);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole(RoleEnum::ADMIN);
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): static
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
+            $team->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): static
+    {
+        if ($this->teams->removeElement($team)) {
+            $team->removeMember($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getOwnedTeams(): Collection
+    {
+        return $this->ownedTeams;
+    }
+
+    public function addOwnedTeam(Team $ownedTeam): static
+    {
+        if (!$this->ownedTeams->contains($ownedTeam)) {
+            $this->ownedTeams->add($ownedTeam);
+            $ownedTeam->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnedTeam(Team $ownedTeam): static
+    {
+        if ($this->ownedTeams->removeElement($ownedTeam)) {
+            // set the owning side to null (unless already changed)
+            if ($ownedTeam->getCreator() === $this) {
+                $ownedTeam->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SimpleReservation>
+     */
+    public function getSimpleReservations(): Collection
+    {
+        return $this->simpleReservations;
+    }
+
+    public function addSimpleReservation(SimpleReservation $simpleReservation): static
+    {
+        if (!$this->simpleReservations->contains($simpleReservation)) {
+            $this->simpleReservations->add($simpleReservation);
+            $simpleReservation->setPassenger($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSimpleReservation(SimpleReservation $simpleReservation): static
+    {
+        if ($this->simpleReservations->removeElement($simpleReservation)) {
+            // set the owning side to null (unless already changed)
+            if ($simpleReservation->getPassenger() === $this) {
+                $simpleReservation->setPassenger(null);
             }
         }
 

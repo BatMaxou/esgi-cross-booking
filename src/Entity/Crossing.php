@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Reservation\Reservation;
 use App\Repository\CrossingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

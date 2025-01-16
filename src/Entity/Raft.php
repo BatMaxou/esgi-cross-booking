@@ -27,6 +27,13 @@ class Raft
     #[ORM\ManyToMany(targetEntity: Crossing::class, mappedBy: 'rafts')]
     private Collection $crossings;
 
+    #[ORM\Column]
+    private ?int $places = null;
+
+    #[ORM\ManyToOne(inversedBy: 'rafts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Company $company = null;
+
     public function __construct()
     {
         $this->crossings = new ArrayCollection();
@@ -84,6 +91,30 @@ class Raft
         if ($this->crossings->removeElement($crossing)) {
             $crossing->removeRaft($this);
         }
+
+        return $this;
+    }
+
+    public function getPlaces(): ?int
+    {
+        return $this->places;
+    }
+
+    public function setPlaces(int $places): static
+    {
+        $this->places = $places;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }

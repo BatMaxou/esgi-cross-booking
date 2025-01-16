@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ReviewRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,19 +21,9 @@ class Review
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'childReviews')]
-    private ?self $parent = null;
-
-    /**
-     * @var Collection<int, self>
-     */
-    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent')]
-    private Collection $childReviews;
-
-    public function __construct()
-    {
-        $this->childReviews = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Crossing $crossing = null;
 
     public function getId(): ?int
     {
@@ -66,44 +54,14 @@ class Review
         return $this;
     }
 
-    public function getParent(): ?self
+    public function getCrossing(): ?Crossing
     {
-        return $this->parent;
+        return $this->crossing;
     }
 
-    public function setParent(?self $parent): static
+    public function setCrossing(?Crossing $crossing): static
     {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getChildReviews(): Collection
-    {
-        return $this->childReviews;
-    }
-
-    public function addChildReview(self $childReview): static
-    {
-        if (!$this->childReviews->contains($childReview)) {
-            $this->childReviews->add($childReview);
-            $childReview->setParent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChildReview(self $childReview): static
-    {
-        if ($this->childReviews->removeElement($childReview)) {
-            // set the owning side to null (unless already changed)
-            if ($childReview->getParent() === $this) {
-                $childReview->setParent(null);
-            }
-        }
+        $this->crossing = $crossing;
 
         return $this;
     }
