@@ -18,13 +18,13 @@ class Raft
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
     /**
      * @var Collection<int, Crossing>
      */
-    #[ORM\ManyToMany(targetEntity: Crossing::class, mappedBy: 'rafts')]
+    #[ORM\ManyToMany(targetEntity: Crossing::class, mappedBy: 'rafts', cascade: ['remove'])]
     private Collection $crossings;
 
     #[ORM\Column]
@@ -61,9 +61,11 @@ class Raft
         return $this->image;
     }
 
-    public function setImage(string $image): static
+    public function setImage(?string $image): static
     {
-        $this->image = $image;
+        if ($image !== null) {
+            $this->image = $image;
+        }
 
         return $this;
     }

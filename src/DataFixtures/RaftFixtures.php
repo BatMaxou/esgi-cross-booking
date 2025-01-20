@@ -66,7 +66,7 @@ class RaftFixtures extends Fixture
             ->setName($name)
             ->setCompany($company)
             ->setPlaces($places)
-            ->setImage(sprintf('%s%s', self::IMAGE_PATH, $key));
+            ->setImage(sprintf('%s%s.png', self::IMAGE_PATH, $key));
 
         $this->manager->persist($raft);
     }

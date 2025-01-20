@@ -40,29 +40,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Review>
      */
-    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'author')]
+    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'author', cascade: ['remove'])]
     private Collection $reviews;
 
     /**
      * @var Collection<int, Team>
      */
-    #[ORM\ManyToMany(targetEntity: Team::class, mappedBy: 'members')]
+    #[ORM\ManyToMany(targetEntity: Team::class, mappedBy: 'members', cascade: ['remove'])]
     private Collection $teams;
 
     /**
      * @var Collection<int, Team>
      */
-    #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'creator')]
+    #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'creator', cascade: ['remove'])]
     private Collection $ownedTeams;
 
     /**
      * @var Collection<int, SimpleReservation>
      */
-    #[ORM\OneToMany(targetEntity: SimpleReservation::class, mappedBy: 'passenger')]
+    #[ORM\OneToMany(targetEntity: SimpleReservation::class, mappedBy: 'passenger', cascade: ['remove'])]
     private Collection $simpleReservations;
 
     public function __construct()
     {
+
+        $this->roles[] = RoleEnum::USER;
+
         $this->reviews = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->ownedTeams = new ArrayCollection();
@@ -113,6 +116,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 
     public function getPassword(): ?string
@@ -172,14 +182,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addRole(RoleEnum $role): static
     {
-        $this->roles[] = $role;
+        if (!$this->hasRole($role)) {
+            $this->roles[] = $role;
+        }
 
         return $this;
     }
 
     public function hasRole(RoleEnum $role): bool
     {
-        return in_array($role->value, $this->roles, true);
+        return in_array($role, $this->roles, true);
+    }
+
+    public function removeRole(RoleEnum $role): static
+    {
+        $key = array_search($role, $this->roles, true);
+
+        if ($key !== false) {
+            unset($this->roles[$key]);
+        }
+
+        return $this;
     }
 
     public function isBanned(): bool
@@ -287,5 +310,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s %s', $this->firstName, $this->lastName);
     }
 }

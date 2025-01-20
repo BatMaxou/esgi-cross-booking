@@ -94,8 +94,7 @@ class UserFixtures extends Fixture
         $user = (new User())
             ->setEmail($email ?? $this->faker->email())
             ->setFirstName($firstName ?? $this->faker->firstName())
-            ->setLastName($lastName ?? $this->faker->lastName())
-            ->addRole(RoleEnum::USER);
+            ->setLastName($lastName ?? $this->faker->lastName());
 
         return $user->setPassword('azerty');
     }

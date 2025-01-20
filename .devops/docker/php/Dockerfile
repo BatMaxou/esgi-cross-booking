@@ -12,7 +12,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # PHP Extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN apk update && apk upgrade
-RUN install-php-extensions pdo_mysql
+RUN install-php-extensions pdo_mysql intl
 
 WORKDIR /srv
 

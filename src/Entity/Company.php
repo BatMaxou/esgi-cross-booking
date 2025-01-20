@@ -21,7 +21,7 @@ class Company
     /**
      * @var Collection<int, Raft>
      */
-    #[ORM\OneToMany(targetEntity: Raft::class, mappedBy: 'company')]
+    #[ORM\OneToMany(targetEntity: Raft::class, mappedBy: 'company', cascade: ['remove'])]
     private Collection $rafts;
 
     public function __construct()
@@ -74,5 +74,10 @@ class Company
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

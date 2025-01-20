@@ -25,7 +25,7 @@ class Port
     /**
      * @var Collection<int, Route>
      */
-    #[ORM\OneToMany(targetEntity: Route::class, mappedBy: 'fromPort')]
+    #[ORM\OneToMany(targetEntity: Route::class, mappedBy: 'fromPort', cascade: ['remove'])]
     private Collection $routes;
 
     public function __construct()
@@ -90,5 +90,10 @@ class Port
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

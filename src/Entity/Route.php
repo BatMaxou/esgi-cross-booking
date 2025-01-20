@@ -26,7 +26,7 @@ class Route
     /**
      * @var Collection<int, Crossing>
      */
-    #[ORM\OneToMany(targetEntity: Crossing::class, mappedBy: 'route')]
+    #[ORM\OneToMany(targetEntity: Crossing::class, mappedBy: 'route', cascade: ['remove'])]
     private Collection $crossings;
 
     public function __construct()
@@ -91,5 +91,10 @@ class Route
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s -> %s', $this->fromPort, $this->toPort);
     }
 }

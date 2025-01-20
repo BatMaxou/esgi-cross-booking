@@ -22,13 +22,19 @@ class Crossing
     /**
      * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'crossing')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'crossing', cascade: ['remove'])]
     private Collection $reservations;
+
+    /**
+     * @var Collection<int, Review>
+     */
+    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'crossing', cascade: ['remove'])]
+    private Collection $reviews;
 
     /**
      * @var Collection<int, Raft>
      */
-    #[ORM\ManyToMany(targetEntity: Raft::class, inversedBy: 'crossings')]
+    #[ORM\ManyToMany(targetEntity: Raft::class, inversedBy: 'crossings', cascade: ['remove'])]
     private Collection $rafts;
 
     #[ORM\ManyToOne(inversedBy: 'crossings')]
@@ -38,6 +44,7 @@ class Crossing
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
         $this->rafts = new ArrayCollection();
     }
 
@@ -89,6 +96,36 @@ class Crossing
     }
 
     /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): static
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setCrossing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): static
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getCrossing() === $this) {
+                $review->setCrossing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection<int, Raft>
      */
     public function getRafts(): Collection
@@ -122,5 +159,15 @@ class Crossing
         $this->route = $route;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf(
+            '%s -> %s / %s',
+            $this->route->getFromPort()->getName(),
+            $this->route->getToPort()->getName(),
+            $this->date->format('Y-m-d H:i'),
+        );
     }
 }

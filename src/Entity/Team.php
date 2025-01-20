@@ -19,7 +19,7 @@ class Team
     /**
      * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'teams')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'teams', cascade: ['remove'])]
     private Collection $members;
 
     #[ORM\ManyToOne(inversedBy: 'ownedTeams')]
@@ -32,7 +32,7 @@ class Team
     /**
      * @var Collection<int, TeamReservation>
      */
-    #[ORM\OneToMany(targetEntity: TeamReservation::class, mappedBy: 'team')]
+    #[ORM\OneToMany(targetEntity: TeamReservation::class, mappedBy: 'team', cascade: ['remove'])]
     private Collection $teamReservations;
 
     public function __construct()
@@ -122,5 +122,10 @@ class Team
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

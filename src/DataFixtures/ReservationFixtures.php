@@ -89,7 +89,7 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
     {
         $alreadyPicked = [];
 
-        for ($i = 0; $i < $this->faker->numberBetween(0, 1); ++$i) {
+        for ($i = 0; $i < $this->faker->numberBetween(1, 2); ++$i) {
             $crossing = $this->faker->randomElement($this->crossings);
 
             if (in_array($crossing->getId(), $alreadyPicked)) {

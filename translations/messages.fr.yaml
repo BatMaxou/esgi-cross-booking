@@ -1,0 +1,220 @@
+ROLE_ADMIN: "Administrateur"
+ROLE_USER: "Utilisateur"
+ROLE_BANNED: "Banni"
+
+FRANCE: "France"
+UNITED_KINGDOM: "Royaume-Uni"
+
+HOME: "Page d'accueil"
+MSG_1: "Message 1"
+MSG_2: "Message 2"
+
+dashboard:
+  title: "Tableau de bord"
+  menu:
+    account: "Mon compte"
+    users: "Utilisateurs"
+    companies: "Entreprises"
+    ports: "Port"
+    routes: "Route"
+    teams: "Équipes"
+    rafts: "Embarcations"
+    crossings: "Traversées"
+    reviews: "Avis"
+    siteMessages: "Contenus dynamique"
+    reservations:
+      simple: "Réservations simple"
+      team: "Réservations de groupe"
+
+user:
+  pageTitle:
+    index: "Utilisateurs"
+    new: "Ajouter un administrateur"
+    edit: "Modifier l'utilisateur"
+  action:
+    new: "Ajouter un administrateur"
+    deban: "Débannir"
+    ban: "Bannir"
+  field:
+    email:
+      label: "Mail"
+      error:
+        notBlank: "Veuillez entrer une adresse mail"
+        email: "L'adresse mail n'est pas valide"
+        unique: "Cette adresse mail est déjà utilisée"
+    password:
+      label: "Mot de passe"
+      error:
+        notBlank: "Veuillez entrer un mot de passe "
+    firstName:
+      label: "Prénom"
+      error:
+        notBlank: "Veuillez entrer un prénom"
+    lastName:
+      label: "Nom"
+      error:
+        notBlank: "Veuillez entrer un nom"
+    role:
+      label: "Type d'utilisateur"
+
+company:
+  pageTitle:
+    index: "Entreprises"
+    new: "Ajouter une entreprise"
+    edit: "Modifier l'entreprise"
+  action:
+    new: "Ajouter une entreprise"
+  field:
+    name:
+      label: "Nom"
+      error:
+        notBlank: "Veuillez entrer un nom."
+
+port:
+  pageTitle:
+    index: "Ports"
+    new: "Ajouter un port"
+    edit: "Modifier un port"
+  action:
+    new: "Ajouter un port"
+  field:
+    name:
+      label: "Nom"
+      error:
+        notBlank: "Veuillez entrer un nom."
+    country:
+      label: "Pays"
+      error:
+        notBlank: "Veuillez entrer un pays."
+
+route:
+  pageTitle:
+    index: "Itinéraires"
+    new: "Ajouter un itinéraire"
+    edit: "Modifier un itinéraire"
+  action:
+    new: "Ajouter un itinéraire"
+  field:
+    fromPort:
+      label: "Port de départ"
+      error:
+        notBlank: "Veuillez entrer un port de départ."
+    toPort:
+      label: "Port d'arrivée"
+      error:
+        notBlank: "Veuillez entrer un port d'arrivée."
+
+team:
+  pageTitle:
+    index: "Équipes"
+    new: "Créer une équipe"
+    edit: "Modifier une équipe"
+  action:
+    new: "Créer une équipe"
+  field:
+    name:
+      label: "Nom"
+      error:
+        notBlank: "Veuillez entrer un nom."
+    creator:
+      label: "Créateur"
+      error:
+        notBlank: "Veuillez entrer un créateur."
+    members:
+      label: "Membres"
+
+raft:
+  pageTitle:
+    index: "Embarcations"
+    new: "Ajouter une embarcation"
+    edit: "Modifier une embarcation"
+  action:
+    new: "Ajouter une embarcation"
+  field:
+    name:
+      label: "Nom"
+      error:
+        notBlank: "Veuillez entrer un nom."
+    places:
+      label: "Nombre de places"
+      error:
+        notBlank: "Veuillez entrer un nombre de places."
+    company:
+      label: "Entreprise"
+      error:
+        notBlank: "Veuillez entrer une entreprise."
+    image:
+      label: "Image"
+      error:
+        notBlank: "Veuillez entrer une image."
+
+crossing:
+  pageTitle:
+    index: "Traversées"
+    new: "Créer une traversée"
+    edit: "Modifier une traversée"
+  action:
+    new: "Créer une traversée"
+  field:
+    date:
+      label: "Date"
+      error:
+        notBlank: "Veuillez entrer un date."
+    route:
+      label: "Iténéraire"
+      error:
+        notBlank: "Veuillez entrer un itinéraire."
+    rafts:
+      label: "Embarcations"
+    
+review:
+  pageTitle:
+    index: "Avis"
+    new: "Ajouter un avis"
+    edit: "Modifier un avis"
+  action:
+    new: "Ajouter un avis"
+  field:
+    author:
+      label: "Auteur"
+    crossing:
+      label: "Traversée"
+      error:
+        notBlank: "Veuillez entrer une traversée."
+    content:
+      label: "contenu"
+      error:
+        notBlank: "Veuillez entrer un contenu."
+
+reservation:
+  pageTitle:
+    index: "Réservations"
+    new: "Créer une réservation"
+    edit: "Modifier une réservation"
+  action:
+    new: "Créer une réservation"
+  field:
+    crossing:
+      label: "Traversée"
+      error:
+        notBlank: "Veuillez entrer une traversée."
+    passenger:
+      label: "Passager"
+      error:
+        notBlank: "Veuillez renseigner un passager."
+    team:
+      label: "Équipe"
+      error:
+        notBlank: "Veuillez renseigner une équipe."
+
+siteMessage:
+  pageTitle:
+    index: "Contenus dynamique"
+    edit: "Modifier un contenu dynamique"
+  field:
+    place:
+      label: "Emplacement"
+    content:
+      label: "Contenu"
+      error:
+        notBlank: "Veuillez entrer un contenu."
