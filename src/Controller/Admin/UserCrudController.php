@@ -129,18 +129,13 @@ class UserCrudController extends AbstractCrudController
                 }
 
                 $roles = $entity->getRoles();
-
-                if (empty($roles) || !key_exists($roles[0]->value, $roleMap)) {
-                    return '';
-                }
-
                 $render = '';
 
                 foreach ($roles as $role) {
                     $render .= sprintf(
                         '<span class="badge badge-pill badge-%s">%s</span>',
-                        $roleMap[$role->value],
-                        $this->translator->trans($role->value),
+                        $roleMap[$role],
+                        $this->translator->trans($role),
                     );
                 }
 
@@ -201,6 +196,8 @@ class UserCrudController extends AbstractCrudController
         foreach ($menu as $item) {
             if ('my_account' === $item->getRouteName()) {
                 $item->setSelected(true);
+            } else {
+                $item->setSelected(false);
             }
         }
     }

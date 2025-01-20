@@ -34,7 +34,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: RoleEnum::class)]
+    /**
+     * @var string[]
+     */
+    #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
     /**
@@ -61,15 +64,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: SimpleReservation::class, mappedBy: 'passenger', cascade: ['remove'])]
     private Collection $simpleReservations;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $resetToken = null;
+
     public function __construct()
     {
-
-        $this->roles[] = RoleEnum::USER;
-
         $this->reviews = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->ownedTeams = new ArrayCollection();
         $this->simpleReservations = new ArrayCollection();
+        $this->addRole(RoleEnum::USER);
     }
 
     public function getId(): ?int
@@ -173,7 +177,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return RoleEnum[]
+     * @return string[]
      */
     public function getRoles(): array
     {
@@ -182,8 +186,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addRole(RoleEnum $role): static
     {
-        if (!$this->hasRole($role)) {
+        if (!in_array($role->value, $this->roles, true)) {
             $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(RoleEnum $role): static
+    {
+        if (in_array($role->value, $this->roles, true)) {
+            $this->roles = array_diff($this->roles, [$role->value]);
         }
 
         return $this;
@@ -191,18 +204,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function hasRole(RoleEnum $role): bool
     {
-        return in_array($role, $this->roles, true);
-    }
-
-    public function removeRole(RoleEnum $role): static
-    {
-        $key = array_search($role, $this->roles, true);
-
-        if ($key !== false) {
-            unset($this->roles[$key]);
-        }
-
-        return $this;
+        return in_array($role->value, $this->roles, true);
     }
 
     public function isBanned(): bool
@@ -308,6 +310,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $simpleReservation->setPassenger(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): static
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation{% endblock %}
+
+{% block content %}
+    <h1>Confirmation</h1>
+
+    <section>
+        <p>Votre compte à bien été confirmé. Vous pouvez désormais vous connecter avec vos identifiants.</p>
+
+        <div>
+            <a href="{{ path('app_login') }}">
+                Vous pouvez vous connecter ici
+            </a>
+        </div>
+    </section>
+{% endblock %}

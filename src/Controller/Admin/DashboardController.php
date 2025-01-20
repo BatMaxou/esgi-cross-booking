@@ -34,8 +34,7 @@ class DashboardController extends AbstractDashboardController
         $user = $this->getUser();
 
         if (!$user || !$user instanceof User) {
-            // TODO with authentication
-            //     return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_login');
         }
 
         /** @var AdminUrlGenerator */
@@ -43,9 +42,8 @@ class DashboardController extends AbstractDashboardController
 
         return $this->redirect(
             $adminUrlGenerator->setController(UserCrudController::class)
-                // ->setAction(Action::DETAIL)
-                // ->setEntityId($user->getId())
-                ->setAction(Action::INDEX)
+                ->setAction(Action::DETAIL)
+                ->setEntityId($user->getId())
                 ->generateUrl()
         );
     }

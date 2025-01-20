@@ -1,0 +1,10 @@
+{% set url = absolute_url(path('app_login')) %}
+
+<div>
+    <p>Bienvenue {{firstName}},</p>
+    <p>Nous vous informons que votre compte a bien été créé.</p>
+    <p>Vous pouvez dès à présent vous connecter à votre espace personnel.</p>
+    <p>Pour cela, veuillez cliquer sur le lien suivant :</p>
+    <p><a href="{{ url }}">{{ url }}</a></p>
+    <p>L'équipe de CrossBooking</p>
+</div>
