@@ -1,0 +1,14 @@
+name: Deploy App
+description: Deploy the application to the production server
+
+runs:
+  using: composite
+  steps:
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Update && Deploy
+      run: ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ${{ secrets.FOLDER }} && make deploy'
+      shell: bash
