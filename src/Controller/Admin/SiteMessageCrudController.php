@@ -15,7 +15,8 @@ class SiteMessageCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -26,14 +27,14 @@ class SiteMessageCrudController extends AbstractCrudController
     {
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('siteMessage.pageTitle.index'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(SiteMessage $siteMessage) => $this->translator->trans($siteMessage->getPlace()->name))
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (SiteMessage $siteMessage) => $this->translator->trans($siteMessage->getPlace()->name))
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('siteMessage.pageTitle.edit'));
     }
 
     public function configureFields(string $pageName): iterable
     {
         yield ChoiceField::new('place', $this->translator->trans('siteMessage.field.place.label'))
-            ->formatValue(fn($enum) => $this->translator->trans($enum->name))
+            ->formatValue(fn ($enum) => $this->translator->trans($enum->name))
             ->setDisabled(true)
             ->hideOnDetail();
         yield TextareaField::new('content', $this->translator->trans('siteMessage.field.content.label'));

@@ -15,7 +15,8 @@ class ReviewCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -33,7 +34,7 @@ class ReviewCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('review.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('review.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(Review $review) => sprintf(
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (Review $review) => sprintf(
                 'Review de %s %s - %s -> %s / %s | id: %d',
                 $review->getAuthor()->getFirstName(),
                 $review->getAuthor()->getLastName(),
@@ -65,7 +66,7 @@ class ReviewCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel($this->translator->trans('review.action.new'))
+                fn (Action $action) => $action->setLabel($this->translator->trans('review.action.new'))
             );
     }
 }

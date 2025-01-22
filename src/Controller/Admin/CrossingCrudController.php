@@ -15,7 +15,8 @@ class CrossingCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -27,7 +28,7 @@ class CrossingCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('crossing.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('crossing.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(Crossing $crossing) => sprintf(
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (Crossing $crossing) => sprintf(
                 '%s / %s - %s',
                 $crossing->getRoute()->getFromPort()->getName(),
                 $crossing->getRoute()->getToPort()->getName(),
@@ -63,7 +64,7 @@ class CrossingCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel($this->translator->trans('crossing.action.new'))
-            );;
+                fn (Action $action) => $action->setLabel($this->translator->trans('crossing.action.new'))
+            );
     }
 }

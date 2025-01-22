@@ -63,7 +63,7 @@ class Raft
 
     public function setImage(?string $image): static
     {
-        if ($image !== null) {
+        if (null !== $image) {
             $this->image = $image;
         }
 

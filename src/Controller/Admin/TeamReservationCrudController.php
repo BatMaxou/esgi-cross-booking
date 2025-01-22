@@ -14,7 +14,8 @@ class TeamReservationCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -26,7 +27,7 @@ class TeamReservationCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('reservation.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('reservation.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(TeamReservation $reservation) => sprintf(
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (TeamReservation $reservation) => sprintf(
                 'Reservation du groupe %s - %s -> %s / %s | id: %d',
                 $reservation->getTeam()->getName(),
                 $reservation->getCrossing()->getRoute()->getFromPort()->getName(),
@@ -55,7 +56,7 @@ class TeamReservationCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel($this->translator->trans('reservation.action.new'))
+                fn (Action $action) => $action->setLabel($this->translator->trans('reservation.action.new'))
             );
     }
 }

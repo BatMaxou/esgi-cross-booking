@@ -14,7 +14,8 @@ class SimpleReservationCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -26,7 +27,7 @@ class SimpleReservationCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('reservation.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('reservation.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(SimpleReservation $reservation) => sprintf(
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (SimpleReservation $reservation) => sprintf(
                 'Reservation de %s %s - %s -> %s / %s | id: %d',
                 $reservation->getPassenger()->getFirstName(),
                 $reservation->getPassenger()->getLastName(),
@@ -56,7 +57,7 @@ class SimpleReservationCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel($this->translator->trans('reservation.action.new'))
+                fn (Action $action) => $action->setLabel($this->translator->trans('reservation.action.new'))
             );
     }
 }

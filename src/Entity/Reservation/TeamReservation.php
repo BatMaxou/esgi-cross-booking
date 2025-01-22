@@ -2,7 +2,6 @@
 
 namespace App\Entity\Reservation;
 
-use App\Entity\Reservation\Reservation;
 use App\Entity\Team;
 use App\Repository\TeamReservationRepository;
 use Doctrine\ORM\Mapping as ORM;

@@ -20,7 +20,8 @@ class SecurityController extends AbstractController
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $em,
         private readonly Validator $validator,
-    ) {}
+    ) {
+    }
 
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response

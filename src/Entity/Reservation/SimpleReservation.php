@@ -2,7 +2,6 @@
 
 namespace App\Entity\Reservation;
 
-use App\Entity\Reservation\Reservation;
 use App\Entity\User;
 use App\Repository\SimpleReservationRepository;
 use Doctrine\ORM\Mapping as ORM;

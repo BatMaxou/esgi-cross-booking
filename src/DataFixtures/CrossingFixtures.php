@@ -4,16 +4,11 @@ namespace App\DataFixtures;
 
 use App\DataFixtures\Faker\FakerFixtureTrait;
 use App\Entity\Crossing;
-use App\Entity\Team;
-use App\Entity\User;
-use App\Enum\RoleEnum;
 use App\Repository\RaftRepository;
 use App\Repository\RouteRepository;
-use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CrossingFixtures extends Fixture implements DependentFixtureInterface
 {

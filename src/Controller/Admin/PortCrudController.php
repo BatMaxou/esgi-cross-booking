@@ -16,7 +16,8 @@ class PortCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -28,7 +29,7 @@ class PortCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('port.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('port.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(Port $port) => $port->getName())
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (Port $port) => $port->getName())
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('port.pageTitle.edit'));
     }
 
@@ -37,7 +38,7 @@ class PortCrudController extends AbstractCrudController
         yield TextField::new('name', $this->translator->trans('port.field.name.label'));
         yield ChoiceField::new('country', $this->translator->trans('port.field.country.label'))
             ->setChoices(CountryEnum::cases())
-            ->formatValue(fn($enum) => $this->translator->trans($enum->name));
+            ->formatValue(fn ($enum) => $this->translator->trans($enum->name));
     }
 
     public function configureActions(Actions $actions): Actions
@@ -52,7 +53,7 @@ class PortCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel($this->translator->trans('port.action.new'))
+                fn (Action $action) => $action->setLabel($this->translator->trans('port.action.new'))
             );
     }
 }

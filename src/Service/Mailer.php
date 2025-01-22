@@ -11,7 +11,8 @@ class Mailer
 {
     public function __construct(
         private readonly MailerInterface $mailer,
-    ) {}
+    ) {
+    }
 
     public function sendForgotPasswordEmail(User $user, string $token): void
     {

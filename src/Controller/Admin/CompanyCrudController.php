@@ -14,7 +14,8 @@ class CompanyCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -26,7 +27,7 @@ class CompanyCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('company.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('company.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(Company $company) => $company->getName())
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (Company $company) => $company->getName())
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('company.pageTitle.edit'));
     }
 
@@ -47,7 +48,7 @@ class CompanyCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel($this->translator->trans('company.action.new'))
+                fn (Action $action) => $action->setLabel($this->translator->trans('company.action.new'))
             );
     }
 }

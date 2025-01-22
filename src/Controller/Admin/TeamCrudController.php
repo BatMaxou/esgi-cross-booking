@@ -15,7 +15,8 @@ class TeamCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -27,7 +28,7 @@ class TeamCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('team.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('team.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(Team $team) => $team->getName())
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (Team $team) => $team->getName())
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('team.pageTitle.edit'));
     }
 
@@ -58,7 +59,7 @@ class TeamCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel($this->translator->trans('team.action.new'))
+                fn (Action $action) => $action->setLabel($this->translator->trans('team.action.new'))
             );
     }
 }

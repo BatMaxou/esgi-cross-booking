@@ -17,7 +17,8 @@ class RaftCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -29,7 +30,7 @@ class RaftCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('raft.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('raft.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(Raft $raft) => $raft->getName())
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (Raft $raft) => $raft->getName())
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('raft.pageTitle.edit'));
     }
 
@@ -49,7 +50,7 @@ class RaftCrudController extends AbstractCrudController
 
                 return str_replace('public/', '', $value);
             })
-            ->setRequired($pageName === Crud::PAGE_NEW)
+            ->setRequired(Crud::PAGE_NEW === $pageName)
             ->hideOnIndex();
     }
 
@@ -65,7 +66,7 @@ class RaftCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel($this->translator->trans('raft.action.new'))
+                fn (Action $action) => $action->setLabel($this->translator->trans('raft.action.new'))
             );
     }
 }

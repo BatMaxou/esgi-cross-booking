@@ -28,7 +28,8 @@ class UserCrudController extends AbstractCrudController
         private readonly TranslatorInterface $translator,
         private readonly AdminUrlGenerator $adminUrlGenerator,
         private readonly Security $security,
-    ) {}
+    ) {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -85,7 +86,7 @@ class UserCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('user.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('user.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn(User $user) => sprintf('%s %s', $user->getFirstName(), $user->getLastName()))
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (User $user) => sprintf('%s %s', $user->getFirstName(), $user->getLastName()))
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('user.pageTitle.edit'));
     }
 
@@ -163,28 +164,28 @@ class UserCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn(Action $action) => $action->setLabel($this->translator->trans('user.action.new'))
+                fn (Action $action) => $action->setLabel($this->translator->trans('user.action.new'))
             )
             ->update(
                 Crud::PAGE_INDEX,
                 'debanUser',
-                fn(Action $action) => $action->addCssClass('text-success')
+                fn (Action $action) => $action->addCssClass('text-success')
             )
             ->update(
                 Crud::PAGE_INDEX,
                 'banUser',
-                fn(Action $action) => $action->addCssClass('text-danger')
+                fn (Action $action) => $action->addCssClass('text-danger')
             )
             ->update(
                 Crud::PAGE_DETAIL,
                 'debanUser',
-                fn(Action $action) => $action
+                fn (Action $action) => $action
                     ->addCssClass('btn btn-success')
             )
             ->update(
                 Crud::PAGE_DETAIL,
                 'banUser',
-                fn(Action $action) => $action
+                fn (Action $action) => $action
                     ->addCssClass('btn btn-danger')
             );
     }
@@ -206,14 +207,14 @@ class UserCrudController extends AbstractCrudController
     {
         return Action::new('debanUser', $this->translator->trans('user.action.deban'))
             ->linkToCrudAction('debanUser')
-            ->displayIf(fn(User $entity) => $entity->isBanned());
+            ->displayIf(fn (User $entity) => $entity->isBanned());
     }
 
     private function getBanAction(): Action
     {
         return Action::new('banUser', $this->translator->trans('user.action.ban'))
             ->linkToCrudAction('banUser')
-            ->displayIf(fn(User $entity) => !$entity->isBanned());
+            ->displayIf(fn (User $entity) => !$entity->isBanned());
     }
 
     private function redirectToIndex(): Response

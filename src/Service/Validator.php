@@ -8,7 +8,8 @@ class Validator
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-    ) {}
+    ) {
+    }
 
     public function validatePassword(?string $password, ?string $confirm): bool
     {

@@ -26,7 +26,8 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     #[Route('/admin', name: 'my_account')]
     public function index(): Response
