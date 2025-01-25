@@ -33,8 +33,12 @@ class SecurityController extends AbstractController
             $this->addFlash('error', 'Identifiants incorrects');
         }
 
-        if ($this->getUser()) {
-            return $this->redirectToRoute('my_account');
+        if ($user = $this->getUser()) {
+            if (!$user instanceof User) {
+                throw new \LogicException('Entity User not found');
+            }
+
+            return $this->redirectToRoute($user->isAdmin() ? 'my_account' : 'home');
         }
 
         return $this->render('auth/login.html.twig', [

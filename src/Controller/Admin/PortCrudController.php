@@ -4,14 +4,17 @@ namespace App\Controller\Admin;
 
 use App\Entity\Port;
 use App\Enum\CountryEnum;
+use App\Enum\VoterRoleEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[IsGranted(VoterRoleEnum::ADMIN->value)]
 class PortCrudController extends AbstractCrudController
 {
     public function __construct(

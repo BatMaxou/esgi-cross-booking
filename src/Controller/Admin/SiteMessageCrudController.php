@@ -3,14 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\SiteMessage;
+use App\Enum\VoterRoleEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[IsGranted(VoterRoleEnum::ADMIN->value)]
 class SiteMessageCrudController extends AbstractCrudController
 {
     public function __construct(
