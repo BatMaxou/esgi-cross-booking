@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Enum\EmailTypeEnum;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Exception\InvalidArgumentException;
 
 class Mailer
 {
@@ -33,10 +34,18 @@ class Mailer
         );
     }
 
+    /**
+     * @param array<string, mixed> $context
+     */
     private function send(User $user, string $subject, EmailTypeEnum $type, array $context = []): void
     {
+        $to = $user->getEmail();
+        if (!$to) {
+            throw new InvalidArgumentException('User email is required');
+        }
+
         $template = (new TemplatedEmail())
-            ->to($user->getEmail())
+            ->to($to)
             ->from('team@crossbooking.fr')
             ->subject($subject)
             ->htmlTemplate(sprintf('email/%s.html.twig', $type->value))

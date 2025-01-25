@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\SiteMessage;
+use App\Enum\SiteMessagePlaceEnum;
 use App\Enum\VoterRoleEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -37,7 +38,7 @@ class SiteMessageCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield ChoiceField::new('place', $this->translator->trans('siteMessage.field.place.label'))
-            ->formatValue(fn ($enum) => $this->translator->trans($enum->name))
+            ->formatValue(fn (SiteMessagePlaceEnum $enum) => $this->translator->trans($enum->name))
             ->setDisabled(true)
             ->hideOnDetail();
         yield TextareaField::new('content', $this->translator->trans('siteMessage.field.content.label'));

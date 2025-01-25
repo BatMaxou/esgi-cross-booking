@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\UuidTrait;
 use App\Repository\RaftRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,10 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RaftRepository::class)]
 class Raft
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    use UuidTrait {
+        __construct as initializeUuid;
+    }
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -36,12 +36,8 @@ class Raft
 
     public function __construct()
     {
+        $this->initializeUuid();
         $this->crossings = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): ?string

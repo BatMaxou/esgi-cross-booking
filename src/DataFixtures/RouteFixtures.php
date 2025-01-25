@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\DataFixtures\Faker\FakerFixtureTrait;
+use App\Entity\Port;
 use App\Entity\Route;
 use App\Enum\CountryEnum;
 use App\Repository\PortRepository;
@@ -17,8 +18,12 @@ class RouteFixtures extends Fixture implements DependentFixtureInterface
     }
 
     private ObjectManager $manager;
+
+    /** @var Port[] */
     private array $ukPorts;
+    /** @var Port[] */
     private array $frPorts;
+    /** @var array<string, array<string, bool>> */
     private array $alreadyCalledMap = [];
 
     public function __construct(
@@ -50,6 +55,10 @@ class RouteFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < $count; ++$i) {
             $from = $this->faker->randomElement($this->frPorts);
             $to = $this->faker->randomElement($this->ukPorts);
+
+            if (!$from instanceof Port || !$to instanceof Port) {
+                throw new \LogicException('Entity Port not found');
+            }
 
             if (isset($this->alreadyCalledMap[$from->getId()][$to->getId()])) {
                 continue;

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Review;
+use App\Entity\User;
 use App\Enum\VoterRoleEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -28,8 +29,13 @@ class ReviewCrudController extends AbstractCrudController
 
     public function createEntity(string $entityFqcn): Review
     {
+        $currentUser = $this->getUser();
+        if (!$currentUser instanceof User) {
+            throw new \RuntimeException('User not found');
+        }
+
         return (new Review())
-            ->setAuthor($this->getUser());
+            ->setAuthor($currentUser);
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -39,11 +45,11 @@ class ReviewCrudController extends AbstractCrudController
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('review.pageTitle.new'))
             ->setPageTitle(Crud::PAGE_DETAIL, fn (Review $review) => sprintf(
                 'Review de %s %s - %s -> %s / %s | id: %d',
-                $review->getAuthor()->getFirstName(),
-                $review->getAuthor()->getLastName(),
-                $review->getCrossing()->getRoute()->getFromPort()->getName(),
-                $review->getCrossing()->getRoute()->getToPort()->getName(),
-                $review->getCrossing()->getDate()->format('Y-m-d H:i'),
+                $review->getAuthor()?->getFirstName() ?? '',
+                $review->getAuthor()?->getLastName() ?? '',
+                $review->getCrossing()?->getRoute()?->getFromPort()?->getName() ?? '',
+                $review->getCrossing()?->getRoute()?->getToPort()?->getName() ?? '',
+                $review->getCrossing()?->getDate()?->format('Y-m-d H:i') ?? '',
                 $review->getId(),
             ))
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('review.pageTitle.edit'));

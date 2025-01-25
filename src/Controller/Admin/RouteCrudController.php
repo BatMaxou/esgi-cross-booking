@@ -30,7 +30,11 @@ class RouteCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, $this->translator->trans('route.pageTitle.index'))
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('route.pageTitle.new'))
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (Route $route) => sprintf('%s %s', $route->getFromPort()->getName(), $route->getToPort()->getName()))
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (Route $route) => sprintf(
+                '%s %s',
+                $route->getFromPort()?->getName() ?? '',
+                $route->getToPort()?->getName() ?? ''
+            ))
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('route.pageTitle.edit'));
     }
 

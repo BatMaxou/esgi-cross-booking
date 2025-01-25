@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Reservation\Reservation;
+use App\Entity\Trait\UuidTrait;
 use App\Repository\CrossingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,10 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CrossingRepository::class)]
 class Crossing
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    use UuidTrait {
+        __construct as initializeUuid;
+    }
 
     #[ORM\Column]
     private ?\DateTimeImmutable $date = null;
@@ -43,14 +43,10 @@ class Crossing
 
     public function __construct()
     {
+        $this->initializeUuid();
         $this->reservations = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->rafts = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getDate(): ?\DateTimeImmutable
@@ -165,9 +161,9 @@ class Crossing
     {
         return sprintf(
             '%s -> %s / %s',
-            $this->route->getFromPort()->getName(),
-            $this->route->getToPort()->getName(),
-            $this->date->format('Y-m-d H:i'),
+            $this->route?->getFromPort()?->getName() ?? '',
+            $this->route?->getToPort()?->getName() ?? '',
+            $this->date?->format('Y-m-d H:i') ?? '',
         );
     }
 }

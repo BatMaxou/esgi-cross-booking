@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\DataFixtures\Faker\FakerFixtureTrait;
+use App\Entity\Crossing;
 use App\Entity\Reservation\SimpleReservation;
 use App\Entity\Reservation\TeamReservation;
 use App\Entity\Team;
@@ -21,8 +22,11 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
     }
 
     private ObjectManager $manager;
+    /** @var User[] */
     private array $users;
+    /** @var Team[] */
     private array $teams;
+    /** @var Crossing[] */
     private array $crossings;
 
     public function __construct(
@@ -70,6 +74,9 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < $this->faker->numberBetween(0, 2); ++$i) {
             $crossing = $this->faker->randomElement($this->crossings);
+            if (!$crossing instanceof Crossing) {
+                throw new \LogicException('Entity Crossing not found');
+            }
 
             if (in_array($crossing->getId(), $alreadyPicked)) {
                 continue;
@@ -91,6 +98,9 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < $this->faker->numberBetween(1, 2); ++$i) {
             $crossing = $this->faker->randomElement($this->crossings);
+            if (!$crossing instanceof Crossing) {
+                throw new \LogicException('Entity Crossing not found');
+            }
 
             if (in_array($crossing->getId(), $alreadyPicked)) {
                 continue;

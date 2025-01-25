@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Reservation;
+use App\Entity\Reservation\Reservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

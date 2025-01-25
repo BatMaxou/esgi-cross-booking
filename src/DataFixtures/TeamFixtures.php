@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\DataFixtures\Faker\FakerFixtureTrait;
 use App\Entity\Team;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -16,6 +17,7 @@ class TeamFixtures extends Fixture implements DependentFixtureInterface
     }
 
     private ObjectManager $manager;
+    /** @var User[] */
     private array $users;
 
     public function __construct(
@@ -44,13 +46,23 @@ class TeamFixtures extends Fixture implements DependentFixtureInterface
     private function createTeams(int $count): void
     {
         for ($i = 0; $i < $count; ++$i) {
+            $creator = $this->faker->randomElement($this->users);
+            if (!$creator instanceof User) {
+                throw new \LogicException('Entity User not found');
+            }
+
             $team = (new Team())
                 ->setName($this->faker->company)
-                ->setCreator($this->faker->randomElement($this->users));
+                ->setCreator($creator);
 
             for ($j = 0; $j < $this->faker->numberBetween(1, 8); ++$j) {
                 $member = $this->faker->randomElement($this->users);
-                if ($member->getId() === $team->getCreator()->getId()) {
+
+                if (!$member instanceof User) {
+                    throw new \LogicException('Entity User not found');
+                }
+
+                if ($member->getId() === $team->getCreator()?->getId()) {
                     continue;
                 }
 

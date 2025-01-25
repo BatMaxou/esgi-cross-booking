@@ -3,7 +3,6 @@
 namespace App\Event\Subscriber;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -14,7 +13,6 @@ class InscriptionSubscriber
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly UserRepository $userRepository,
     ) {
     }
 

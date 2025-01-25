@@ -17,9 +17,12 @@ class PortRepository extends ServiceEntityRepository
         parent::__construct($registry, Port::class);
     }
 
+    /**
+     * @return Port[]
+     */
     public function findByCountry(CountryEnum $country): array
     {
-        return $this->createQueryBuilder('p')
+        return $this->createQueryBuilder('p') // @phpstan-ignore return.type
             ->andWhere('p.country = :country')
             ->setParameter('country', $country->value)
             ->getQuery()

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\UuidTrait;
 use App\Enum\SiteMessagePlaceEnum;
 use App\Repository\SiteMessageRepository;
 use Doctrine\DBAL\Types\Types;
@@ -10,21 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SiteMessageRepository::class)]
 class SiteMessage
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    use UuidTrait;
 
     #[ORM\Column(enumType: SiteMessagePlaceEnum::class)]
     private SiteMessagePlaceEnum $place;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getPlace(): SiteMessagePlaceEnum
     {

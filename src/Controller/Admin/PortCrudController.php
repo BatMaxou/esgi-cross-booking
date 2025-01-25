@@ -41,7 +41,7 @@ class PortCrudController extends AbstractCrudController
         yield TextField::new('name', $this->translator->trans('port.field.name.label'));
         yield ChoiceField::new('country', $this->translator->trans('port.field.country.label'))
             ->setChoices(CountryEnum::cases())
-            ->formatValue(fn ($enum) => $this->translator->trans($enum->name));
+            ->formatValue(fn (CountryEnum $enum) => $this->translator->trans($enum->name));
     }
 
     public function configureActions(Actions $actions): Actions

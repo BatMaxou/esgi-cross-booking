@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Crossing;
+use App\Entity\Raft;
 use App\Enum\VoterRoleEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -33,9 +34,9 @@ class CrossingCrudController extends AbstractCrudController
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('crossing.pageTitle.new'))
             ->setPageTitle(Crud::PAGE_DETAIL, fn (Crossing $crossing) => sprintf(
                 '%s / %s - %s',
-                $crossing->getRoute()->getFromPort()->getName(),
-                $crossing->getRoute()->getToPort()->getName(),
-                $crossing->getDate()->format('Y-m-d H:i')
+                $crossing->getRoute()?->getFromPort()?->getName() ?? '',
+                $crossing->getRoute()?->getToPort()?->getName() ?? '',
+                $crossing->getDate()?->format('Y-m-d H:i')
             ))
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('crossing.pageTitle.edit'));
     }
@@ -48,8 +49,8 @@ class CrossingCrudController extends AbstractCrudController
             ->setFormTypeOption('choice_label', 'name')
             ->setFormTypeOption('by_reference', false)
             ->hideOnIndex()
-            ->formatValue(function ($value, $entity) {
-                return implode(', ', $entity->getRafts()->map(function ($raft) {
+            ->formatValue(function ($value, Crossing $entity) {
+                return implode(', ', $entity->getRafts()->map(function (Raft $raft) {
                     return $raft->getName();
                 })->toArray());
             });

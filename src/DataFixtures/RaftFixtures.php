@@ -52,10 +52,8 @@ class RaftFixtures extends Fixture
             $company = (new Company())->setName($company);
             $this->manager->persist($company);
 
-            if (isset(self::RAFTS[$key]) && isset(self::RAFTS[$key]['name'])) {
-                foreach (self::RAFTS[$key]['name'] as $name) {
-                    $this->createRaft($key, $name, self::RAFTS[$key]['places'], $company);
-                }
+            foreach (self::RAFTS[$key]['name'] as $name) {
+                $this->createRaft($key, $name, self::RAFTS[$key]['places'], $company);
             }
         }
     }

@@ -32,11 +32,11 @@ class SimpleReservationCrudController extends AbstractCrudController
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('reservation.pageTitle.new'))
             ->setPageTitle(Crud::PAGE_DETAIL, fn (SimpleReservation $reservation) => sprintf(
                 'Reservation de %s %s - %s -> %s / %s | id: %d',
-                $reservation->getPassenger()->getFirstName(),
-                $reservation->getPassenger()->getLastName(),
-                $reservation->getCrossing()->getRoute()->getFromPort()->getName(),
-                $reservation->getCrossing()->getRoute()->getToPort()->getName(),
-                $reservation->getCrossing()->getDate()->format('Y-m-d H:i'),
+                $reservation->getPassenger()?->getFirstName() ?? '',
+                $reservation->getPassenger()?->getLastName() ?? '',
+                $reservation->getCrossing()?->getRoute()?->getFromPort()?->getName() ?? '',
+                $reservation->getCrossing()?->getRoute()?->getToPort()?->getName() ?? '',
+                $reservation->getCrossing()?->getDate()?->format('Y-m-d H:i') ?? '',
                 $reservation->getId(),
             ))
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('reservation.pageTitle.edit'));

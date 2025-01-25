@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\UuidTrait;
 use App\Enum\CountryEnum;
 use App\Repository\PortRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,10 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PortRepository::class)]
 class Port
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    use UuidTrait {
+        __construct as initializeUuid;
+    }
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -30,12 +30,8 @@ class Port
 
     public function __construct()
     {
+        $this->initializeUuid();
         $this->routes = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): ?string
@@ -94,6 +90,6 @@ class Port
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->name ?? '';
     }
 }

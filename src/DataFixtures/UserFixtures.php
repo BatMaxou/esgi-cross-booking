@@ -7,22 +7,12 @@ use App\Entity\User;
 use App\Enum\RoleEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    use FakerFixtureTrait {
-        __construct as initializeFaker;
-    }
+    use FakerFixtureTrait;
 
     private ObjectManager $manager;
-    private array $disciplines;
-
-    public function __construct(
-        private readonly UserPasswordHasherInterface $userPasswordHasher,
-    ) {
-        $this->initializeFaker();
-    }
 
     public function load(ObjectManager $manager): void
     {
@@ -39,6 +29,10 @@ class UserFixtures extends Fixture
     {
         for ($i = 0; $i < $count; ++$i) {
             $user = $process ? $process() : $this->createUser();
+
+            if (!$user instanceof User) {
+                throw new \LogicException('Entity User not found');
+            }
 
             $this->manager->persist($user);
         }

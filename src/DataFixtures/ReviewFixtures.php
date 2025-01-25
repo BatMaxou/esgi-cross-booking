@@ -3,7 +3,9 @@
 namespace App\DataFixtures;
 
 use App\DataFixtures\Faker\FakerFixtureTrait;
+use App\Entity\Crossing;
 use App\Entity\Review;
+use App\Entity\User;
 use App\Repository\CrossingRepository;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -17,7 +19,9 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
     }
 
     private ObjectManager $manager;
+    /** @var User[] */
     private array $users;
+    /** @var Crossing[] */
     private array $crossings;
 
     public function __construct(
@@ -50,10 +54,15 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
     {
         foreach ($this->users as $user) {
             for ($i = 0; $i < $this->faker->numberBetween(0, 2); ++$i) {
+                $crossing = $this->faker->randomElement($this->crossings);
+                if (!$crossing instanceof Crossing) {
+                    throw new \LogicException('Entity Crossing not found');
+                }
+
                 $review = (new Review())
                     ->setAuthor($user)
                     ->setContent($this->faker->realText(200))
-                    ->setCrossing($this->faker->randomElement($this->crossings));
+                    ->setCrossing($crossing);
 
                 $this->manager->persist($review);
             }

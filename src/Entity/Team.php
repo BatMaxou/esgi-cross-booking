@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Reservation\TeamReservation;
+use App\Entity\Trait\UuidTrait;
 use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,10 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 class Team
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    use UuidTrait {
+        __construct as initializeUuid;
+    }
 
     /**
      * @var Collection<int, User>
@@ -37,13 +37,9 @@ class Team
 
     public function __construct()
     {
+        $this->initializeUuid();
         $this->members = new ArrayCollection();
         $this->teamReservations = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**
@@ -126,6 +122,6 @@ class Team
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->name ?? '';
     }
 }

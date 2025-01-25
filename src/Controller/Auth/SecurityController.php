@@ -64,7 +64,12 @@ class SecurityController extends AbstractController
             $confirm = $request->request->get('confirm', null);
 
             if (
-                $this->validator->validatePassword($password, $confirm)
+                is_string($password)
+                && is_string($confirm)
+                && is_string($email)
+                && is_string($firstName)
+                && is_string($lastName)
+                && $this->validator->validatePassword($password, $confirm)
                 && $this->validator->validateEmail($email)
             ) {
                 $user = (new User())
@@ -141,7 +146,12 @@ class SecurityController extends AbstractController
         if ($request->isMethod('POST')) {
             $password = $request->request->get('password', null);
             $confirm = $request->request->get('confirm', null);
-            if ($this->validator->validatePassword($password, $confirm)) {
+
+            if (
+                is_string($password)
+                && is_string($confirm)
+                && $this->validator->validatePassword($password, $confirm)
+            ) {
                 $user->setPassword($password);
                 $user->setResetToken(null);
                 $this->em->flush();

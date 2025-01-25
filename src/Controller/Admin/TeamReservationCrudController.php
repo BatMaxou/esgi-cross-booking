@@ -32,10 +32,10 @@ class TeamReservationCrudController extends AbstractCrudController
             ->setPageTitle(Crud::PAGE_NEW, $this->translator->trans('reservation.pageTitle.new'))
             ->setPageTitle(Crud::PAGE_DETAIL, fn (TeamReservation $reservation) => sprintf(
                 'Reservation du groupe %s - %s -> %s / %s | id: %d',
-                $reservation->getTeam()->getName(),
-                $reservation->getCrossing()->getRoute()->getFromPort()->getName(),
-                $reservation->getCrossing()->getRoute()->getToPort()->getName(),
-                $reservation->getCrossing()->getDate()->format('Y-m-d H:i'),
+                $reservation->getTeam()?->getName() ?? '',
+                $reservation->getCrossing()?->getRoute()?->getFromPort()?->getName() ?? '',
+                $reservation->getCrossing()?->getRoute()?->getToPort()?->getName() ?? '',
+                $reservation->getCrossing()?->getDate()?->format('Y-m-d H:i') ?? '',
                 $reservation->getId(),
             ))
             ->setPageTitle(Crud::PAGE_EDIT, $this->translator->trans('reservation.pageTitle.edit'));

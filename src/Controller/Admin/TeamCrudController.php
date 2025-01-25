@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Team;
+use App\Entity\User;
 use App\Enum\VoterRoleEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -43,8 +44,8 @@ class TeamCrudController extends AbstractCrudController
             ->setFormTypeOption('choice_label', 'firstName')
             ->setFormTypeOption('by_reference', false)
             ->hideOnIndex()
-            ->formatValue(function ($value, $entity) {
-                return implode(', ', $entity->getMembers()->map(function ($member) {
+            ->formatValue(function ($value, Team $entity) {
+                return implode(', ', $entity->getMembers()->map(function (User $member) {
                     return sprintf('%s %s', $member->getFirstName(), $member->getLastName());
                 })->toArray());
             });

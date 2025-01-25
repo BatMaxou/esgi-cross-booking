@@ -46,7 +46,7 @@ class RaftCrudController extends AbstractCrudController
             ->setBasePath('')
             ->setUploadDir('public/images/rafts')
             ->setUploadedFileNamePattern('images/rafts/[randomhash].[extension]')
-            ->formatValue(function ($value, ?Raft $entity) {
+            ->formatValue(function (string $value, ?Raft $entity) {
                 if (null === $entity) {
                     return '';
                 }

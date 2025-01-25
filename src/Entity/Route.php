@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\UuidTrait;
 use App\Repository\RouteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,10 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RouteRepository::class)]
 class Route
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    use UuidTrait {
+        __construct as initializeUuid;
+    }
 
     #[ORM\ManyToOne(inversedBy: 'routes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -31,12 +31,8 @@ class Route
 
     public function __construct()
     {
+        $this->initializeUuid();
         $this->crossings = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getFromPort(): ?Port
