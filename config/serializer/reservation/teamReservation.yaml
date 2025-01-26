@@ -1,0 +1,6 @@
+App\Entity\Reservation\TeamReservation:
+  attributes:
+    team:
+      groups:
+        - api:crossing
+        - api:crossings

@@ -1,0 +1,10 @@
+App\Entity\User:
+  attributes:
+    firstName:
+      groups:
+        - api:crossing
+        - api:crossings
+    lastName:
+      groups:
+        - api:crossing
+        - api:crossings

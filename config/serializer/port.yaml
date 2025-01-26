@@ -1,0 +1,10 @@
+App\Entity\Port:
+  attributes:
+    name:
+      groups:
+        - api:crossing
+        - api:crossings
+    country:
+      groups:
+        - api:crossing
+        - api:crossings

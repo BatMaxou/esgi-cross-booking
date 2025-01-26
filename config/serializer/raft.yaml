@@ -1,0 +1,14 @@
+App\Entity\Raft:
+  attributes:
+    name:
+      groups:
+        - api:crossing
+        - api:crossings
+    company:
+      groups:
+        - api:crossing
+        - api:crossings
+    places:
+      groups:
+        - api:crossing
+        - api:crossings

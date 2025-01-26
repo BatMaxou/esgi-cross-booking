@@ -1,0 +1,10 @@
+App\Entity\Route:
+  attributes:
+    fromPort:
+      groups:
+        - api:crossing
+        - api:crossings
+    toPort:
+      groups:
+        - api:crossing
+        - api:crossings

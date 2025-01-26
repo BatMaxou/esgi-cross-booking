@@ -1,0 +1,10 @@
+App\Entity\Team:
+  attributes:
+    name:
+      groups:
+        - api:crossing
+        - api:crossings
+    creator:
+      groups:
+        - api:crossing
+        - api:crossings

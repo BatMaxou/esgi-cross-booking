@@ -1,0 +1,21 @@
+App\Entity\Crossing:
+  attributes:
+    id:
+      groups:
+        - api:crossings
+    date:
+      groups:
+        - api:crossing
+        - api:crossings
+    route:
+      groups:
+        - api:crossing
+        - api:crossings
+    reservations:
+      groups:
+        - api:crossing
+        - api:crossings
+    rafts:
+      groups:
+        - api:crossing
+        - api:crossings
