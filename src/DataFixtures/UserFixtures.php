@@ -10,9 +10,17 @@ use Doctrine\Persistence\ObjectManager;
 
 class UserFixtures extends Fixture
 {
-    use FakerFixtureTrait;
+    use FakerFixtureTrait {
+        __construct as initializeFaker;
+    }
 
     private ObjectManager $manager;
+
+    public function __construct(
+        private readonly string $testPhoneNumber,
+    ) {
+        $this->initializeFaker();
+    }
 
     public function load(ObjectManager $manager): void
     {
@@ -55,6 +63,7 @@ class UserFixtures extends Fixture
     {
         $user = (new User())
             ->setEmail($email ?? $this->faker->email())
+            ->setPhone($this->testPhoneNumber)
             ->setFirstName($firstName ?? $this->faker->firstName())
             ->setLastName($lastName ?? $this->faker->lastName());
 
