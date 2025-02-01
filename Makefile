@@ -1,5 +1,6 @@
 git = $(shell which git)
 php := docker compose run --rm php php -d memory_limit=-1
+console := $(php) bin/console
 composer := $(shell docker compose run --rm php which composer)
 qa := docker run --rm -t -v `pwd`:/project --workdir="/project" jakzal/phpqa:php8.3
 
@@ -20,8 +21,19 @@ phpstan:
 .PHONY: phpstan
 
 database-migration:
-	@$(php) bin/console doctrine:migrations:migrate --no-interaction
+	@$(console) doctrine:migrations:migrate --no-interaction
 .PHONY: database-migration
+
+pretests:
+	@$(console) --env=test doctrine:database:drop --if-exists -f
+	@$(console) --env=test doctrine:database:create
+	@$(console) --env=test doctrine:schema:update --force
+	@$(console) --env=test cache:clear --no-warmup
+.PHONY: pretests
+
+tests: pretests
+	@$(php) bin/phpunit
+.PHONY: tests
 
 deploy:
 	$(git) pull -fr

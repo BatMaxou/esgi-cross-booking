@@ -1,0 +1,5 @@
+services:
+  db:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cb_test

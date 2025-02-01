@@ -26,3 +26,6 @@ jobs:
 
       - name: Linter
         uses: ./.devops/workflows/php/lint
+      
+      - name: Tests
+        uses: ./.devops/workflows/php/test

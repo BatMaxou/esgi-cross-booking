@@ -21,3 +21,15 @@ services:
     App\DataFixtures\UserFixtures:
         arguments:
             $testPhoneNumber: '%env(string:TWILIO_TEST_PHONE)%'
+
+when@test:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        App\Service\Validator:
+            public: true
+
+        App\Repository\UserRepository:
+            public: true

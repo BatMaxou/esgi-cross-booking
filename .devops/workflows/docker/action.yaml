@@ -5,5 +5,5 @@ runs:
   using: composite
   steps:
     - name: Starting docker
-      run: docker compose up -d
+      run: docker compose -f compose.yaml -f compose.tests.yaml up -d
       shell: bash

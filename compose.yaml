@@ -4,6 +4,8 @@ services:
       context: .devops/docker/php
     volumes:
       - .:/srv
+    networks:
+      - cb
 
   web:
     depends_on:
@@ -17,9 +19,15 @@ services:
     image: mariadb:10.3
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - cb
 
   mailbox:
     image: mailhog/mailhog
 
 volumes:
   db_data:
+
+networks:
+  cb:
+    

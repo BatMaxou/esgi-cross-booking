@@ -1,0 +1,9 @@
+name: Tests
+description: Run tests
+
+runs:
+  using: composite
+  steps:
+    - name: PhpUnit
+      run: make tests
+      shell: bash
