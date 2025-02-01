@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% set name = crossing.route.fromPort.name ~ ' / ' ~ crossing.route.toPort.name ~ ' - ' ~ crossing.date.format('Y-m-d H:i') %}
+
+{% block title %}{{ name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ name }}</h1>
+{% endblock %}
