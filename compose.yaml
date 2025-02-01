@@ -7,6 +7,17 @@ services:
     networks:
       - cb
 
+  consumer:
+    depends_on:
+      - php
+    build:
+      context: .devops/docker/php
+    volumes:
+      - .:/srv
+    command: php -d memory_limit=-1 bin/console messenger:consume async
+    networks:
+      - cb
+
   web:
     depends_on:
       - php
@@ -14,6 +25,8 @@ services:
       context: .devops/docker/nginx/symfony
     volumes:
       - ./public:/srv/public
+    networks:
+      - cb
 
   db:
     image: mariadb:10.3
@@ -24,6 +37,8 @@ services:
 
   mailbox:
     image: mailhog/mailhog
+    networks:
+      - cb
 
 volumes:
   db_data:

@@ -2,14 +2,16 @@
 
 namespace App\Controller\Auth;
 
+use App\Domain\SendForgotPasswordEmailCommand;
+use App\Domain\SendWelcomeEmailCommand;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\Mailer;
 use App\Service\Validator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Uid\Uuid;
@@ -20,6 +22,7 @@ class SecurityController extends AbstractController
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $em,
         private readonly Validator $validator,
+        private readonly MessageBusInterface $bus,
     ) {
     }
 
@@ -53,9 +56,10 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/register', name: 'register')]
-    public function register(Request $request, Mailer $mailer): Response
+    public function register(Request $request): Response
     {
         $email = $request->request->get('email', null);
+        $phone = $request->request->get('phone', null);
         $firstName = $request->request->get('firstName', null);
         $lastName = $request->request->get('lastName', null);
 
@@ -67,6 +71,7 @@ class SecurityController extends AbstractController
                 is_string($password)
                 && is_string($confirm)
                 && is_string($email)
+                && is_string($phone)
                 && is_string($firstName)
                 && is_string($lastName)
                 && $this->validator->validatePassword($password, $confirm)
@@ -76,13 +81,14 @@ class SecurityController extends AbstractController
                     ->setFirstName($firstName)
                     ->setLastName($lastName)
                     ->setEmail($email)
+                    ->setPhone($phone)
                     ->setPassword($password);
 
                 $this->em->persist($user);
                 $this->em->flush();
 
                 $this->addFlash('success', 'Compte créé');
-                $mailer->sendWelcomeEmail($user);
+                $this->bus->dispatch(new SendWelcomeEmailCommand($user));
 
                 return $this->redirectToRoute('app_login');
             }
@@ -92,16 +98,15 @@ class SecurityController extends AbstractController
 
         return $this->render('auth/register.html.twig', [
             'email' => $email,
+            'phone' => $phone,
             'firstName' => $firstName,
             'lastName' => $lastName,
         ]);
     }
 
     #[Route('/forgot-password', name: 'forgot')]
-    public function forgot(
-        Request $request,
-        Mailer $mailer,
-    ): Response {
+    public function forgot(Request $request): Response
+    {
         if ($request->isMethod('POST')) {
             $email = $request->request->get('email', null);
             $error = true;
@@ -113,7 +118,7 @@ class SecurityController extends AbstractController
                     $user->setResetToken($token);
                     $this->em->flush();
 
-                    $mailer->sendForgotPasswordEmail($user, $token);
+                    $this->bus->dispatch(new SendForgotPasswordEmailCommand($user, $token));
 
                     $this->addFlash('info', 'Un email vous a été envoyé');
                     $error = false;

@@ -42,8 +42,8 @@
 ## Points bonus : 
 
 - Temps réel
-- Asynchrone 
+- Asynchrone
 - Commandes personnalisées
 - Tests mutations
-- DDD 
+- DDD
 - TDD

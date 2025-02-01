@@ -35,6 +35,9 @@ tests: pretests
 	@$(php) bin/phpunit
 .PHONY: tests
 
+setup-messenger:
+	@$(console) messenger:setup-transports
+
 deploy:
 	$(git) pull -fr
 	$(MAKE) vendor
