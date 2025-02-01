@@ -38,6 +38,15 @@ tests: pretests
 setup-messenger:
 	@$(console) messenger:setup-transports
 
+install:
+	$(MAKE) vendor
+	$(console) doctrine:database:create --if-not-exists
+	$(MAKE) database-migration
+	$(MAKE) setup-messenger
+
+fixtures:
+	$(console) doctrine:fixtures:load --no-interaction
+
 deploy:
 	$(git) pull -fr
 	$(MAKE) vendor
