@@ -15,22 +15,26 @@ class Mailer
     ) {
     }
 
-    public function sendForgotPasswordEmail(User $user, string $token): void
+    public function sendForgotPasswordEmail(User $user, string $resetUrl, string $token): void
     {
         $this->send(
             $user,
             'Réinitialisation de mot de passe',
             EmailTypeEnum::FORGOT_PASSWORD,
-            ['token' => $token]
+            [
+                'resetUrl' => $resetUrl,
+                'token' => $token,
+            ]
         );
     }
 
-    public function sendWelcomeEmail(User $user): void
+    public function sendWelcomeEmail(User $user, string $loginUrl): void
     {
         $this->send(
             $user,
             'Bienvenue sur CrossBooking',
-            EmailTypeEnum::WELCOME
+            EmailTypeEnum::WELCOME,
+            ['loginUrl' => $loginUrl]
         );
     }
 

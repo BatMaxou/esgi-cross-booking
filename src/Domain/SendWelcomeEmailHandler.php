@@ -14,6 +14,6 @@ class SendWelcomeEmailHandler
 
     public function __invoke(SendWelcomeEmailCommand $command): void
     {
-        $this->mailer->sendWelcomeEmail($command->user);
+        $this->mailer->sendWelcomeEmail($command->user, $command->loginUrl);
     }
 }

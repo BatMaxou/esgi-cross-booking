@@ -6,7 +6,9 @@ use App\Entity\User;
 
 class SendWelcomeEmailCommand
 {
-    public function __construct(public User $user)
-    {
+    public function __construct(
+        public User $user,
+        public string $loginUrl,
+    ) {
     }
 }

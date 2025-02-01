@@ -39,16 +39,20 @@ setup-messenger:
 	@$(console) messenger:setup-transports
 
 install:
+	docker compose up -d
 	$(MAKE) vendor
 	$(console) doctrine:database:create --if-not-exists
 	$(MAKE) database-migration
 	$(MAKE) setup-messenger
+	docker compose run --rm php chmod -R 777 public/images
 
 fixtures:
 	$(console) doctrine:fixtures:load --no-interaction
 
 deploy:
+	docker compose down
 	$(git) pull -fr
+	docker compose up -d
 	$(MAKE) vendor
 	$(MAKE) database-migration
 	$(php) bin/console cache:clear

@@ -14,6 +14,6 @@ class SendForgotPasswordEmailHandler
 
     public function __invoke(SendForgotPasswordEmailCommand $command): void
     {
-        $this->mailer->sendForgotPasswordEmail($command->user, $command->token);
+        $this->mailer->sendForgotPasswordEmail($command->user, $command->resetUrl, $command->token);
     }
 }

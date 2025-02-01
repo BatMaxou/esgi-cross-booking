@@ -13,17 +13,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Uid\Uuid;
 
 class SecurityController extends AbstractController
 {
+    private string $domain;
+
     public function __construct(
+        string $domain,
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $em,
         private readonly Validator $validator,
         private readonly MessageBusInterface $bus,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
+        $this->domain = empty($domain)
+            ? substr($urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL), 0, -1)
+            : $domain;
     }
 
     #[Route(path: '/login', name: 'app_login')]
@@ -88,7 +96,11 @@ class SecurityController extends AbstractController
                 $this->em->flush();
 
                 $this->addFlash('success', 'Compte créé');
-                $this->bus->dispatch(new SendWelcomeEmailCommand($user));
+
+                $this->bus->dispatch(new SendWelcomeEmailCommand(
+                    $user,
+                    sprintf('%s%s', $this->domain, $this->urlGenerator->generate('app_login'))
+                ));
 
                 return $this->redirectToRoute('app_login');
             }
@@ -118,7 +130,11 @@ class SecurityController extends AbstractController
                     $user->setResetToken($token);
                     $this->em->flush();
 
-                    $this->bus->dispatch(new SendForgotPasswordEmailCommand($user, $token));
+                    $this->bus->dispatch(new SendForgotPasswordEmailCommand(
+                        $user,
+                        sprintf('%s%s', $this->domain, $this->urlGenerator->generate('reset', ['token' => $token])),
+                        $token,
+                    ));
 
                     $this->addFlash('info', 'Un email vous a été envoyé');
                     $error = false;

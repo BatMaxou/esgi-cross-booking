@@ -21,6 +21,10 @@ services:
     App\DataFixtures\UserFixtures:
         arguments:
             $testPhoneNumber: '%env(string:TWILIO_TEST_PHONE)%'
+    
+    App\Controller\Auth\SecurityController:
+        arguments:
+            $domain: '%env(string:DOMAIN_NAME)%'
 
 when@test:
     services:

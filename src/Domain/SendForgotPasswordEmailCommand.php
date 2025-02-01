@@ -8,6 +8,7 @@ class SendForgotPasswordEmailCommand
 {
     public function __construct(
         public User $user,
+        public string $resetUrl,
         public string $token,
     ) {
     }

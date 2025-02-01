@@ -1,0 +1,15 @@
+services:
+  web:
+    ports:
+      - "8000:80"
+
+  db:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cb
+    ports:
+      - "3307:3306"
+
+  mailbox:
+    ports:
+      - "8025:8025"
