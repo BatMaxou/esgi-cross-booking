@@ -7,6 +7,8 @@
 @use './pages/crossings';
 @use './pages/teams';
 @use './pages/auth';
+@use './pages/newTeam';
+@use './pages/team.scss';
 
 /* Components */
 @use './components/nav';

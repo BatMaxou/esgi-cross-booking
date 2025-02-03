@@ -25,11 +25,19 @@
         }
     }
 
-    &.owned {
+    &.info {
         border-color: v.$info;
 
         .title {
             color: v.$info;
+        }
+    }
+
+    &.error {
+        border-color: v.$error;
+
+        .title {
+            color: v.$error;
         }
     }
 }

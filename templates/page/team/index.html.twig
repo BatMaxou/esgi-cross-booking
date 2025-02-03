@@ -2,6 +2,56 @@
 
 {% block title %}{{ team.name }}{% endblock %}
 
+{% block targetClass %}team{% endblock %}
+
 {% block body %}
     <h1>{{ team.name }}</h1>
+
+    <section class="creator">
+        <h2>Créateur</h2>
+
+        {% include 'components/user/card.html.twig' with {user: team.creator} %}
+    </section>
+
+    <section class="members">
+        <h2>Membres</h2>
+
+        <ul class="list">
+            {% for member in team.members %}
+                <li class="item">
+                    {% include 'components/user/card.html.twig' with {user: member} %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    {% if form is not null %}
+        <section class="manage">
+            <h2>Gestions des membres</h2>
+
+            {{ form_start(form, {
+                'attr': {'class': 'form generated'}
+            }) }}
+                {{ form_row(form.members) }}
+                {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+        </section>
+    {% endif %}
+
+    <section class="reservations">
+        <h2>Réservations</h2>
+
+        <ul class="list">
+            {% for reservation in reservations|sort((a, b) => a.crossing.date <=> b.crossing.date) %}
+                <li class="item">
+                    {% include 'components/crossing/card.html.twig' with {crossing: reservation.crossing, passed: false} %}
+                </li>
+            {% endfor %}
+            {% for reservation in passedReservations|sort((a, b) => a.crossing.date <=> b.crossing.date)|reverse %}
+                <li class="item">
+                    {% include 'components/crossing/card.html.twig' with {crossing: reservation.crossing, passed: true} %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock %}

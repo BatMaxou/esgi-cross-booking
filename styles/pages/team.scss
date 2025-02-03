@@ -1,0 +1,46 @@
+.team {
+  section {
+    padding: 40px;
+
+    .card .title {
+      margin-bottom: 0;
+    }
+
+    &.creator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .card {
+        width: calc(33% - 10px);
+
+      }
+    }
+
+    &.members {
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+  
+        > .item {
+          width: calc(33% - 10px);
+        }
+      }
+    }
+
+    &.reservations {
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+  
+        > .item {
+          width: calc(50% - 10px);
+
+          
+        }
+      }
+    }
+  }
+}

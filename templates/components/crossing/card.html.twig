@@ -2,6 +2,8 @@
 
 {% block title %}{{ crossing.route.fromPort.name }} >> {{ crossing.route.toPort.name }}{% endblock %}
 
+{% block cardTargetClass %}{% if passed is defined and passed %}error{% endif %}{% endblock %}
+
 {% block content %}
     <p>{{ crossing.date|date('d/m/Y') }}</p>
     <a href="{{ path('crossing', {'id': crossing.id}) }}" class="btn main">En savoir plus</a>
