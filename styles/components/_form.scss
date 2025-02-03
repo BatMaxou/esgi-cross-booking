@@ -1,0 +1,61 @@
+@use './../variables' as v;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px;
+    border: 1px solid v.$main;
+    border-radius: 5px;
+    gap: 10px;
+
+    input, textarea {
+        width: 80%;
+        max-width: 600px;
+        padding: 10px;
+        border: 1px solid v.$main;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    textarea {
+        min-height: 120px;
+    }
+
+    .btn {
+        width: 50%;
+        min-width: 200px;
+        max-width: 400px;
+    }
+
+    .link {
+        color: v.$main;
+    }
+
+    &.generated {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        label {
+            display: none;
+        }
+
+        div {
+            width: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            
+            ul li {
+                color: v.$error
+            }
+        }
+    }
+}

@@ -2,14 +2,18 @@
 
 {% block title %}Mot de passe oublié{% endblock %}
 
+{% block targetClass %}auth{% endblock %}
+
 {% block body %}
     <h1>Mot de passe oublié</h1>
 
-    <form method="POST">
-        <input name="email" id="username" type="text" placeholder="Adresse Email"/>
-        
-        <button>
-            Recevoir l'email de réinitialisation
-        </button>
-    </form>
+    <section class="formPage">
+        <form method="POST" class="form">
+            <input name="email" id="username" type="text" placeholder="Adresse Email"/>
+            
+            <button class="btn main">
+                Recevoir l'email de réinitialisation
+            </button>
+        </form>
+    </section>
 {% endblock %}

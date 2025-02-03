@@ -2,16 +2,20 @@
 
 {% block title %}Réinitialisation du mot de passe{% endblock %}
 
+{% block targetClass %}auth{% endblock %}
+
 {% block body %}
     <h1>Réinitialisation du mot de passe</h1>
 
-    <form method="POST">
-        <input value="{{ email }}" disabled id="email" type="text" placeholder="Adresse Email"/>
-        <input name="password" id="password" type="password" placeholder="Nouveau mot de passe"/>
-        <input name="confirm" id="repeat-password" type="password" placeholder="Resaisissez votre nouveau mot de passe"/>
-        
-        <button>
-            Changer mon mot de passe
-        </button>
-    </form>
+    <section class="formPage">
+        <form method="POST" class="form">
+            <input value="{{ email }}" disabled id="email" type="text" placeholder="Adresse Email"/>
+            <input name="password" id="password" type="password" placeholder="Nouveau mot de passe"/>
+            <input name="confirm" id="repeat-password" type="password" placeholder="Resaisissez votre nouveau mot de passe"/>
+            
+            <button class="btn main">
+                Changer mon mot de passe
+            </button>
+        </form>
+    </section>
 {% endblock %}

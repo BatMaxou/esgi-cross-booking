@@ -30,3 +30,7 @@ phpstan.neon
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+###> node ###
+/node_modules/
+###< node ###

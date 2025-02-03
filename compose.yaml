@@ -15,6 +15,7 @@ services:
     volumes:
       - .:/srv
     command: php -d memory_limit=-1 bin/console messenger:consume async
+    restart: on-failure
     networks:
       - cb
 

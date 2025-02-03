@@ -1,0 +1,20 @@
+@use './../variables.scss' as v;
+
+.auth {
+  section {
+    margin-top: 60px;
+    
+    &.formPage {
+      display: flex;
+      justify-content: center;
+    }
+
+    &.confirm {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+  }
+}

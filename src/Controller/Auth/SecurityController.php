@@ -49,7 +49,7 @@ class SecurityController extends AbstractController
                 throw new \LogicException('Entity User not found');
             }
 
-            return $this->redirectToRoute($user->isAdmin() ? 'my_account' : 'home');
+            return $this->redirectToRoute($user->isAdmin() ? 'dashboard' : 'home');
         }
 
         return $this->render('auth/login.html.twig', [
@@ -102,7 +102,7 @@ class SecurityController extends AbstractController
                     sprintf('%s%s', $this->domain, $this->urlGenerator->generate('app_login'))
                 ));
 
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('confirm');
             }
 
             $this->addFlash('error', 'Erreur lors de la création du compte, veuillez réessayer');

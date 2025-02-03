@@ -2,6 +2,24 @@
 
 {% block title %}Mon compte{% endblock %}
 
+{% block targetClass %}auth{% endblock %}
+
 {% block body %}
     <h1>Mon compte</h1>
+
+    <section class="formPage">
+        {{ form_start(form, {
+            'attr': {'class': 'form generated'}
+        }) }}
+            <div class="errors">
+                {{ form_errors(form) }}
+            </div>
+
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.phone) }}
+
+        {{ form_end(form) }}
+    </section>
 {% endblock %}

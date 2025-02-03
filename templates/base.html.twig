@@ -9,6 +9,8 @@
 </head>
 
 <body>
+    {% include "components/nav/nav.html.twig" %}
+    
     <main class="{% block targetClass %}{% endblock %}">
         {% block body %}{% endblock %}
     </main>
@@ -22,5 +24,7 @@
             {% endfor %}
         {% endfor %}
     </div>
+
+    {% include "components/footer/footer.html.twig" %}
 </body>
 </html>

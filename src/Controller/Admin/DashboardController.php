@@ -32,7 +32,7 @@ class DashboardController extends AbstractDashboardController
     ) {
     }
 
-    #[Route('/admin', name: 'my_account')]
+    #[Route('/admin', name: 'dashboard')]
     public function index(): Response
     {
         $user = $this->getUser();
@@ -60,7 +60,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToRoute($this->translator->trans('dashboard.menu.account'), 'fas fa-user', 'my_account');
+        yield MenuItem::linkToRoute($this->translator->trans('dashboard.menu.account'), 'fas fa-user', 'dashboard');
         yield MenuItem::linkToCrud($this->translator->trans('dashboard.menu.users'), 'fas fa-users', User::class);
         yield MenuItem::linkToCrud($this->translator->trans('dashboard.menu.companies'), 'fas fa-building', Company::class);
         yield MenuItem::linkToCrud($this->translator->trans('dashboard.menu.ports'), 'fas fa-anchor', Port::class);
@@ -72,5 +72,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud($this->translator->trans('dashboard.menu.reservations.simple'), 'fas fa-id-card', SimpleReservation::class);
         yield MenuItem::linkToCrud($this->translator->trans('dashboard.menu.reservations.team'), 'fas fa-users-between-lines', TeamReservation::class);
         yield MenuItem::linkToCrud($this->translator->trans('dashboard.menu.siteMessages'), 'fas fa-quote-left', SiteMessage::class);
+        yield MenuItem::linkToRoute($this->translator->trans('dashboard.menu.back'), 'fas fa-sign-out-alt', 'home');
     }
 }

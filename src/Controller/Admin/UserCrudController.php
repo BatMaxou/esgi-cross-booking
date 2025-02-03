@@ -196,7 +196,7 @@ class UserCrudController extends AbstractCrudController
         $menu = $context->getMainMenu()->getItems();
 
         foreach ($menu as $item) {
-            if ('my_account' === $item->getRouteName()) {
+            if ('dashboard' === $item->getRouteName()) {
                 $item->setSelected(true);
             } else {
                 $item->setSelected(false);

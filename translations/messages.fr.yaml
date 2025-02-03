@@ -25,6 +25,7 @@ dashboard:
     reservations:
       simple: "Réservations simple"
       team: "Réservations de groupe"
+    back: "Retour au site"
 
 user:
   pageTitle:

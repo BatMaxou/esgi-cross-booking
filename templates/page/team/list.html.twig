@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Équipes{% endblock %}
+
+{% block targetClass %}teams{% endblock %}
+
+{% block body %}
+    <h1>Mes Équipes</h1>
+
+    <section class="teams">
+        <ul class="list">
+            {% for team in app.user.ownedTeams %}
+                <li class="item">
+                    {% include 'components/team/card.html.twig' with {team, owned: true} %}
+                </li>
+            {% endfor %}
+
+            {% for team in app.user.teams %}
+                <li class="item">
+                    {% include 'components/team/card.html.twig' with {team, owned: false} %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

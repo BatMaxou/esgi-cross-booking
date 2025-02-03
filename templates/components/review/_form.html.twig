@@ -1,0 +1,7 @@
+{{ form_start(form, {
+    'attr': {'class': 'form generated'}
+}) }}
+    {{ form_widget(form) }}
+    <input id="form-target" type="hidden" name="target" value="" />
+    <button class="btn success">{{ button_label|default('Sauvegarder') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,73 @@
+@use './../variables' as v;
+
+.crossing {
+  section {
+    padding: 40px;
+
+    &.rafts {
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+  
+        > .item {
+          width: calc(33% - 10px);
+        }
+      }
+    }
+
+    &.infos {
+      .colored {
+        color: v.$main;
+        font-weight: bold;
+      }
+    }
+
+    &.actions {
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+
+    &.reviews {
+      .form.generated {
+        max-width: none;
+        margin-bottom: 10px;
+      }
+
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .item {
+          .review {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid v.$main;
+            border-radius: 5px;
+            padding: 20px;
+    
+            .infos {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+    
+              .author {
+                color: v.$main;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

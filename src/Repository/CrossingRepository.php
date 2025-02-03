@@ -15,4 +15,16 @@ class CrossingRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Crossing::class);
     }
+
+    /**
+     * @return Crossing[]
+     */
+    public function findLastCrossings(int $limit): array
+    {
+        return $this->createQueryBuilder('crossing') // @phpstan-ignore return.type
+            ->orderBy('crossing.date', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

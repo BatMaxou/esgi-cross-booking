@@ -1,0 +1,16 @@
+/* Global styles */
+@use './globals';
+
+/* Pages */
+@use './pages/home';
+@use './pages/crossing';
+@use './pages/crossings';
+@use './pages/teams';
+@use './pages/auth';
+
+/* Components */
+@use './components/nav';
+@use './components/btn';
+@use './components/card';
+@use './components/form';
+@use './components/footer';

@@ -2,6 +2,57 @@
 
 {% block title %}CrossBooking - Accueil{% endblock %}
 
+{% block targetClass %}home{% endblock %}
+
 {% block body %}
-    <h1>CrossBooking</h1>
+    <section class="main">
+        <div class="infos">
+            <h1>CrossBooking</h1>
+            <h3>Reservez votre traversés en 1 clic !</h3>
+            <a href="{{ path('crossings') }}" class="btn main">
+                Reserver maintenant
+            </a>
+        </div>
+        <img src="/images/static/cover.webp" alt="Image de couverture">
+    </section>
+
+    <section class="icons">
+        <h2>Pourquoi nous choisir ?</h2>
+
+        <ul class="list">
+            <li class="item">
+                <img src="/images/static/reliability.png" alt="Confiance" class="icon">
+                <h3>Une confiance absolue</h3>
+            </li>
+            <li class="item">
+                <img src="/images/static/safety.png" alt="Sécurité" class="icon">
+                <h3>Une sécurité optimale</h3>
+            </li>
+            <li class="item">
+                <img src="/images/static/simple.png" alt="Facilité" class="icon">
+                <h3>Réservation simple et rapide</h3>
+            </li>
+            <li class="item">
+                <img src="/images/static/reliability.png" alt="Prix" class="icon">
+                <h3>Paiement sur place</h3>
+            </li>
+        </ul>
+    </section>
+
+    <section class="bannerMessage">
+        <h2>Message d'information</h2>
+        <p>{{ bannerMessage }}</p>
+    </section>
+
+    <section class="crossings">
+        <h2>Les traversées du moment</h2>
+
+        <ul class="list">
+            {% for crossing in crossings %}
+                <li class="item">
+                    {% include 'components/crossing/card.html.twig' with {crossing} %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock %}

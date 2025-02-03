@@ -1,0 +1,8 @@
+{% extends 'components/card.html.twig' %}
+
+{% block title %}{{ raft.name }}{% endblock %}
+
+{% block content %}
+    <img src="{{ '/' ~ raft.image }}" alt="Photo de {{ raft.name }}">
+    <p> Fabricant - {{ raft.company.name }}</p>
+{% endblock %}

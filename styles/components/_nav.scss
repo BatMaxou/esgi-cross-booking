@@ -1,0 +1,56 @@
+@use './../variables' as v;
+
+.nav {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: v.$white;
+
+  .logo {
+    border: v.$main 2px dashed;
+    padding: 10px;
+    margin: 0;
+  }
+
+  .list {
+    display: flex;
+    gap: 20px;
+
+    &.main {
+      width: 100%;
+      padding-inline: 20px;
+    }
+
+    .item {
+      position: relative;
+      min-height: 40px;
+
+      a {
+          height: 100%;
+          padding: 10px;
+          font-weight: bold;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0%;
+        height: 2px;
+        background-color: v.$main;
+        transition: width .3s linear;
+      }
+
+      &.active, &:hover {
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

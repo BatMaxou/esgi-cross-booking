@@ -2,6 +2,18 @@
 
 {% block title %}Traversées{% endblock %}
 
+{% block targetClass %}crossings{% endblock %}
+
 {% block body %}
-    <h1>Traversées</h1>
+    <h1>Les Traversées</h1>
+
+    <section class="crossings">
+        <ul class="list">
+            {% for crossing in crossings %}
+                <li class="item">
+                    {% include 'components/crossing/card.html.twig' with {crossing} %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock %}

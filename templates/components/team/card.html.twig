@@ -1,0 +1,21 @@
+{% extends 'components/card.html.twig' %}
+
+{% block title %}{{ team.name }}{% endblock %}
+
+{% block cardTargetClass %}{% if owned %}owned{% endif %}{% endblock %}
+
+{% block content %}
+    {% if owned %}
+        <p>Vous êtes le créateur de cette équipe</p>
+    {% endif %}
+
+    {% set nbMembers = team.members|length + 1 %}
+
+    {% if nbMembers < 2 %}
+        <p>Vous êtes le seul membre</p>
+    {% else %}
+        <p>{{ nbMembers }} membres</p>
+    {% endif %}
+
+    <a href="{{ path('team', {'id': team.id}) }}" class="btn {% if owned %}info{% else %}main{% endif %}">Voir</a>
+{% endblock %}

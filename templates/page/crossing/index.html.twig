@@ -1,9 +1,83 @@
 {% extends 'base.html.twig' %}
 
-{% set name = crossing.route.fromPort.name ~ ' / ' ~ crossing.route.toPort.name ~ ' - ' ~ crossing.date.format('Y-m-d H:i') %}
+{% set fromPort = crossing.route.fromPort %}
+{% set toPort = crossing.route.toPort %}
+{% set name = fromPort.name ~ ' / ' ~ toPort.name ~ ' - ' ~ crossing.date.format('Y-m-d') %}
 
 {% block title %}{{ name }}{% endblock %}
 
+{% block targetClass %}crossing{% endblock %}
+
 {% block body %}
     <h1>{{ name }}</h1>
+
+    <section class="rafts">
+        <h2>Embarcations</h2>
+        <ul class="list">
+            {% for raft in crossing.rafts %}
+                <li class="item">
+                    {% include 'components/raft/card.html.twig' with {raft} %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="infos">
+        <h2>Informations</h2>
+
+        <p>Cette traversées partira du port <span class="colored">{{ fromPort.name }} ({{fromPort.country.name|trans}})</span> et ira jusqu'au port <span class="colored">{{ toPort.name }} ({{toPort.country.name|trans}})</span>. Elle pourra acceuillir <span class="colored">{{ availablePlaces }} passagers</span> et partira à <span class="colored">{{ crossing.date.format('H:i') }}</span>.</p>
+
+        <p>Il reste actuellement <span class="colored">{{ remainingPlaces }}</span> place(s) disponible(s).</p>
+    </section>
+
+    <section class="actions">
+        <ul class="list">
+            {% if app.user is not null %}
+                {% if simpleReservationForm is not null %}
+                    <li class="item">
+                    {{ form_start(simpleReservationForm) }}
+                        {{ form_row(simpleReservationForm.submit) }}
+                    {{ form_end(simpleReservationForm) }}
+                    </li>
+                {% endif %}
+
+                {% for form in teamReservationForms %}
+                    {% if form is not null %}
+                        <li class="item">
+                        {{ form_start(form) }}
+                            {{ form_row(form.submit) }}
+                        {{ form_end(form) }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+            {% else %}
+                <li class="item">
+                    <a href="{{ path('app_login') }}" class="btn main">Se connecter pour réserver</a>
+                </li>
+            {% endif %}
+        </ul>
+    </section>
+
+    <section class="reviews">
+        <h2>Avis</h2>
+
+        {% if app.user is not null %}
+            {{ form_start(reviewForm, {
+                'attr': {'class': 'form generated'}
+            }) }}
+                {{ form_row(reviewForm.content) }}
+                {{ form_row(reviewForm.submit) }}
+            {{ form_end(reviewForm) }}
+        {% endif %}
+
+        <ul class="list">
+            {% for review in crossing.reviews|reverse %}
+                <li class="item">
+                    {% include 'components/review/review.html.twig' with {review} %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
 {% endblock %}

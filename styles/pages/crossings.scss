@@ -1,0 +1,18 @@
+.crossings {
+  section {
+    padding: 40px;
+
+    &.crossings {
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+  
+        > .item {
+          width: calc(50% - 10px);
+        }
+      }
+    }
+  }
+}
