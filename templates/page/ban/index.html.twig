@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vous avez été banni{% endblock %}
+
+{% block targetClass %}ban{% endblock %}
+
+{% block body %}
+  <h1>Votre compte a été banni</h1>
+
+  <section class="banPage">
+    {% include '/components/messageBanner/messageBanner.html.twig' with {message, class: 'error'} %}
+
+    <a href="{{ path('app_logout') }}" class="btn error">
+        Retourner à l'accueil
+    </a>
+  </section>
+{% endblock %}

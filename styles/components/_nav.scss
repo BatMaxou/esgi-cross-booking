@@ -9,10 +9,37 @@
   padding: 20px;
   background-color: v.$white;
 
-  .logo {
-    border: v.$main 2px dashed;
-    padding: 10px;
-    margin: 0;
+  .static {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .btn.burger {
+      display: none;
+      background-color: v.$white;
+      border: 2px solid v.$black;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 5px;
+      min-width: 50px;
+      width: 50px;
+      height: 50px;
+  
+      .line {
+        width: 90%;
+        height: 4px;
+        border-radius: 10px;
+        background-color: v.$black;
+      }
+    }
+
+    .logo {
+      width: 100%;
+      border: v.$main 2px dashed;
+      padding: 10px;
+      margin: 0;
+    }
   }
 
   .list {
@@ -51,6 +78,73 @@
           width: 100%;
         }
       }
+    }
+
+    &.burger {
+      display: none;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .nav {
+    flex-wrap: wrap;
+
+    .static {
+      .btn.burger {
+        display: flex;
+      }
+    }
+
+    .list {
+      &.main {
+        display: none;
+      }
+
+      &.burger {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding-top: 20px;
+
+        &.active {
+          display: flex;
+        }
+
+        .item {
+          max-width: fit-content;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .nav {
+    .static {
+      width: 100%;
+    }
+    
+    .list {
+      &.actions {
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding-top: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .nav {
+    .static {
+      width: 100%;
+      flex-direction: column-reverse;
     }
   }
 }

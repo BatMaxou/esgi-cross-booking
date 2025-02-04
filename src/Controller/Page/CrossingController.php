@@ -9,11 +9,13 @@ use App\Entity\Reservation\SimpleReservation;
 use App\Entity\Reservation\TeamReservation;
 use App\Entity\Review;
 use App\Entity\User;
+use App\Enum\SiteMessagePlaceEnum;
 use App\Form\ReviewType;
 use App\Form\SimpleReservationType;
 use App\Form\TeamReservationType;
 use App\Repository\CrossingRepository;
 use App\Repository\SimpleReservationRepository;
+use App\Repository\SiteMessageRepository;
 use App\Repository\TeamReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +30,7 @@ class CrossingController extends AbstractController
     public function crossings(CrossingRepository $crossingRepository): Response
     {
         return $this->render('page/crossing/list.html.twig', [
-            'crossings' => $crossingRepository->findAll(),
+            'crossings' => $crossingRepository->findAllFuturCrossings(),
         ]);
     }
 
@@ -39,16 +41,19 @@ class CrossingController extends AbstractController
         EntityManagerInterface $em,
         TeamReservationRepository $teamReservationRepository,
         SimpleReservationRepository $simpleReservationRepository,
+        SiteMessageRepository $siteMessageRepository,
         MessageBusInterface $bus,
     ): Response {
         $user = $this->getUser();
+        $date = $crossing->getDate();
+        $isPassed = !$date || $date < new \DateTime();
+
         $teamReservationForms = null;
         $simpleReservationForm = null;
         $reviewForm = null;
 
-        if ($user && $user instanceof User) {
-            foreach ($user->getOwnedTeams() as $index => $team) {
-                // always build for the index
+        if ($user && $user instanceof User && !$isPassed) {
+            foreach ($user->getOwnedTeams() as $team) {
                 $newTeamReservation = new TeamReservation();
                 $form = $this->createForm(TeamReservationType::class, $newTeamReservation, ['team' => $team]);
 
@@ -142,10 +147,13 @@ class CrossingController extends AbstractController
         return $this->render('page/crossing/index.html.twig', [
             'crossing' => $crossing,
             'availablePlaces' => $availablePlaces,
-            'remainingPlaces' => $remainingPlaces,
+            'remainingPlaces' => $remainingPlaces < 0 ? 0 : $remainingPlaces,
             'teamReservationForms' => $teamReservationForms,
             'simpleReservationForm' => $simpleReservationForm,
             'reviewForm' => $reviewForm,
+            'isPassed' => $isPassed,
+            'passedMessage' => $siteMessageRepository->findByPlace(SiteMessagePlaceEnum::PASSED_CROSSING)?->getContent() ?? '',
+            'unlimitedMessage' => $siteMessageRepository->findByPlace(SiteMessagePlaceEnum::UNLIMITED_CROSSING)?->getContent() ?? '',
         ]);
     }
 }

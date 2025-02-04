@@ -29,6 +29,12 @@
       }
     }
 
+    &.manage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     &.reservations {
       .list {
         display: flex;

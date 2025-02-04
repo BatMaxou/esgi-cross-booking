@@ -27,37 +27,57 @@
 } %}
 
 <nav class="nav">
-    <h2 class="logo">CrossBooking</h2>
-        <ul class="list main">
-            {% for key, value in linksMap %}
-                {% include 'components/nav/menu-link.html.twig' with {
-                    'display': value.display,
-                    'title': value.title,
-                    'url': value.url,
-                    'active': app.request.attributes.get('_route') == key,
-                } %}
-            {% endfor %}
+    <div class="static">
+        <ul class="btn burger">
+            <li class="line"></li>
+            <li class="line"></li>
+            <li class="line"></li>
         </ul>
-        
-        <ul class="list">
-            {% if is_granted('ROLE_ADMIN') %}
-                <li>
-                    <a href="{{ path('dashboard') }}" class="btn warning">Administration</a>
-                </li>
-            {% endif %}
 
-            {% if app.user %}
-                <li>
-                    <a href="{{ path('app_logout') }}" class="btn error">Déconnexion</a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="{{ path('register') }}" class="btn success">Inscription</a>
-                </li>
-                <li>
-                    <a href="{{ path('app_login') }}" class="btn main">Connexion</a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
-</aside>
+        <h2 class="logo">CrossBooking</h2>
+    </div>
+
+
+    <ul class="list main">
+        {% for key, value in linksMap %}
+            {% include 'components/nav/menu-link.html.twig' with {
+                'display': value.display,
+                'title': value.title,
+                'url': value.url,
+                'active': app.request.attributes.get('_route') == key,
+            } %}
+        {% endfor %}
+    </ul>
+    
+    <ul class="list actions">
+        {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('dashboard') }}" class="btn warning">Administration</a>
+            </li>
+        {% endif %}
+
+        {% if app.user %}
+            <li>
+                <a href="{{ path('app_logout') }}" class="btn error">Déconnexion</a>
+            </li>
+        {% else %}
+            <li>
+                <a href="{{ path('register') }}" class="btn success">Inscription</a>
+            </li>
+            <li>
+                <a href="{{ path('app_login') }}" class="btn main">Connexion</a>
+            </li>
+        {% endif %}
+    </ul>
+
+    <ul class="list burger">
+        {% for key, value in linksMap %}
+            {% include 'components/nav/menu-link.html.twig' with {
+                'display': value.display,
+                'title': value.title,
+                'url': value.url,
+                'active': app.request.attributes.get('_route') == key,
+            } %}
+        {% endfor %}
+    </ul>
+</nav>

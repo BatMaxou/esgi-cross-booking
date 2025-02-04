@@ -49,6 +49,10 @@ class SecurityController extends AbstractController
                 throw new \LogicException('Entity User not found');
             }
 
+            if ($user->isBanned()) {
+                return $this->redirectToRoute('ban');
+            }
+
             return $this->redirectToRoute($user->isAdmin() ? 'dashboard' : 'home');
         }
 

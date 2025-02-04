@@ -19,7 +19,6 @@ class MembersType extends AbstractType
                 'class' => User::class,
                 'choice_label' => fn (User $user) => sprintf('%s %s', $user->getFirstName(), $user->getLastName()),
                 'multiple' => true,
-                'autocomplete' => true,
                 'required' => false,
             ])
             ->add('submit', SubmitType::class, [

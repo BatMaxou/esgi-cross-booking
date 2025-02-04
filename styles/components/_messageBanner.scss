@@ -1,0 +1,36 @@
+@use './../variables.scss' as v;
+
+.messageBanner {
+  padding: 20px;
+  border: 2px solid v.$black;
+  border-radius: 5px;
+  background-color: v.$blackFade;
+  color: v.$white;
+  font-weight: bold;
+  text-align: center;
+
+  &.success {
+    border-color: v.$success;
+    background-color: v.$successFade;
+  }
+
+  &.error {
+    border-color: v.$error;
+    background-color: v.$errorFade;
+  }
+
+  &.warning {
+    border-color: v.$warning;
+    background-color: v.$warningFade;
+  }
+
+  &.info {
+    border-color: v.$info;
+    background-color: v.$infoFade;
+  }
+
+  &.main {
+    border-color: v.$main;
+    background-color: v.$mainFade;
+  }
+}

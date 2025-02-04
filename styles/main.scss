@@ -9,10 +9,12 @@
 @use './pages/auth';
 @use './pages/newTeam';
 @use './pages/team.scss';
+@use './pages/ban';
 
 /* Components */
 @use './components/nav';
 @use './components/btn';
 @use './components/card';
+@use './components/messageBanner';
 @use './components/form';
 @use './components/footer';

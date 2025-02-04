@@ -22,8 +22,23 @@ class CrossingRepository extends ServiceEntityRepository
     public function findLastCrossings(int $limit): array
     {
         return $this->createQueryBuilder('crossing') // @phpstan-ignore return.type
-            ->orderBy('crossing.date', 'DESC')
+            ->orderBy('crossing.date', 'ASC')
+            ->andWhere('crossing.date > :now')
+            ->setParameter('now', new \DateTime())
             ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Crossing[]
+     */
+    public function findAllFuturCrossings(): array
+    {
+        return $this->createQueryBuilder('crossing') // @phpstan-ignore return.type
+            ->orderBy('crossing.date', 'ASC')
+            ->andWhere('crossing.date > :now')
+            ->setParameter('now', new \DateTime())
             ->getQuery()
             ->getResult();
     }

@@ -6,8 +6,9 @@ FRANCE: "France"
 UNITED_KINGDOM: "Royaume-Uni"
 
 HOME: "Page d'accueil"
-MSG_1: "Message 1"
-MSG_2: "Message 2"
+BAN: "Message de ban"
+PASSED_CROSSING: "Traversée expirée"
+UNLIMITED_CROSSING: 'Message de traversée pleine'
 
 dashboard:
   title: "Tableau de bord"

@@ -5,6 +5,7 @@ namespace App\Enum;
 enum SiteMessagePlaceEnum: string
 {
     case HOME = 'home';
-    case MSG_1 = 'msg_1';
-    case MSG_2 = 'msg_2';
+    case BAN = 'ban';
+    case PASSED_CROSSING = 'passed_crossing';
+    case UNLIMITED_CROSSING = 'unlimited_crossing';
 }

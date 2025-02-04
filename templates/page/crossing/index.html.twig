@@ -22,47 +22,59 @@
         </ul>
     </section>
 
-    <section class="infos">
-        <h2>Informations</h2>
+    {% if not isPassed %}
+        <section class="infos">
+            <h2>Informations</h2>
 
-        <p>Cette traversées partira du port <span class="colored">{{ fromPort.name }} ({{fromPort.country.name|trans}})</span> et ira jusqu'au port <span class="colored">{{ toPort.name }} ({{toPort.country.name|trans}})</span>. Elle pourra acceuillir <span class="colored">{{ availablePlaces }} passagers</span> et partira à <span class="colored">{{ crossing.date.format('H:i') }}</span>.</p>
+            <p>Cette traversées partira du port <span class="colored">{{ fromPort.name }} ({{fromPort.country.name|trans}})</span> et ira jusqu'au port <span class="colored">{{ toPort.name }} ({{toPort.country.name|trans}})</span>. Elle pourra acceuillir <span class="colored">{{ availablePlaces }} passagers</span> et partira à <span class="colored">{{ crossing.date.format('H:i') }}</span>.</p>
 
-        <p>Il reste actuellement <span class="colored">{{ remainingPlaces }}</span> place(s) disponible(s).</p>
-    </section>
+            <p>Il reste actuellement <span class="colored">{{ remainingPlaces }}</span> place(s) disponible(s).</p>
+        </section>
 
-    <section class="actions">
-        <ul class="list">
-            {% if app.user is not null %}
-                {% if simpleReservationForm is not null %}
-                    <li class="item">
-                    {{ form_start(simpleReservationForm) }}
-                        {{ form_row(simpleReservationForm.submit) }}
-                    {{ form_end(simpleReservationForm) }}
-                    </li>
-                {% endif %}
+        {% if remainingPlaces == 0 %}
+            <section class="messages">
+                {% include '/components/messageBanner/messageBanner.html.twig' with {message: unlimitedMessage, class: 'info'}%}
+            </section>
+        {% endif %}
 
-                {% for form in teamReservationForms %}
-                    {% if form is not null %}
+        <section class="actions">
+            <ul class="list">
+                {% if app.user is not null %}
+                    {% if simpleReservationForm is not null %}
                         <li class="item">
-                        {{ form_start(form) }}
-                            {{ form_row(form.submit) }}
-                        {{ form_end(form) }}
+                        {{ form_start(simpleReservationForm) }}
+                            {{ form_row(simpleReservationForm.submit) }}
+                        {{ form_end(simpleReservationForm) }}
                         </li>
                     {% endif %}
-                {% endfor %}
 
-            {% else %}
-                <li class="item">
-                    <a href="{{ path('app_login') }}" class="btn main">Se connecter pour réserver</a>
-                </li>
-            {% endif %}
-        </ul>
-    </section>
+                    {% for form in teamReservationForms %}
+                        {% if form is not null %}
+                            <li class="item">
+                            {{ form_start(form) }}
+                                {{ form_row(form.submit) }}
+                            {{ form_end(form) }}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                {% else %}
+                    <li class="item">
+                        <a href="{{ path('app_login') }}" class="btn main">Se connecter pour réserver</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </section>
+    {% else %}
+        <section class="messages">
+            {% include '/components/messageBanner/messageBanner.html.twig' with {message: passedMessage, class: 'warning'} %}
+        </section>
+    {% endif %}
 
     <section class="reviews">
         <h2>Avis</h2>
 
-        {% if app.user is not null %}
+        {% if app.user is not null and reviewForm is not null %}
             {{ form_start(reviewForm, {
                 'attr': {'class': 'form generated'}
             }) }}
