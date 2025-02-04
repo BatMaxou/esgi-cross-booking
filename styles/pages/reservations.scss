@@ -1,0 +1,18 @@
+.reservations {
+  section {
+    padding: 40px;
+
+    &.reservations {
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+  
+        > .item {
+          width: calc(50% - 10px);
+        }
+      }
+    }
+  }
+}

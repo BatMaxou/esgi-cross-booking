@@ -61,6 +61,7 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
 
                 $review = (new Review())
                     ->setAuthor($user)
+                    ->setDate(new \DateTimeImmutable($this->faker->dateTimeBetween('-1 month', 'now')->format('Y-m-d H:i:s')))
                     ->setContent($this->faker->realText(200))
                     ->setCrossing($crossing);
 

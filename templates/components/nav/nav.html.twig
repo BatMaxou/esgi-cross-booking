@@ -14,12 +14,17 @@
         'title': 'Mon compte',
         'url': path('account'),
     },
-    'myTeams': {
+    'my_reservations': {
+        'display': null != app.user and not is_granted('ROLE_BANNED'),
+        'title': 'Mes réservations',
+        'url': path('my_reservations'),
+    },
+    'my_teams': {
         'display': null != app.user and not is_granted('ROLE_BANNED'),
         'title': 'Mes équipes',
         'url': path('my_teams'),
     },
-    'newTeam': {
+    'team_create': {
         'display': null != app.user and not is_granted('ROLE_BANNED'),
         'title': 'Créer une équipe',
         'url': path('team_create'),
@@ -36,7 +41,6 @@
 
         <h2 class="logo">CrossBooking</h2>
     </div>
-
 
     <ul class="list main">
         {% for key, value in linksMap %}

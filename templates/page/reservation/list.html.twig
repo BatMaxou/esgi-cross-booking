@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservations{% endblock %}
+
+{% block targetClass %}reservations{% endblock %}
+
+{% block body %}
+    <h1>Mes réservations</h1>
+
+    <section class="reservations">
+        <ul class="list">
+            {% for reservation in reservations|sort((a, b) => a.crossing.date <=> b.crossing.date) %}
+                <li class="item">
+                    {% include 'components/crossing/card.html.twig' with {crossing: reservation.crossing, passed: false} %}
+                </li>
+            {% endfor %}
+            {% for reservation in passedReservations|sort((a, b) => a.crossing.date <=> b.crossing.date)|reverse %}
+                <li class="item">
+                    {% include 'components/crossing/card.html.twig' with {crossing: reservation.crossing, passed: true} %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

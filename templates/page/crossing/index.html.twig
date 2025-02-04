@@ -84,7 +84,7 @@
         {% endif %}
 
         <ul class="list">
-            {% for review in crossing.reviews|reverse %}
+            {% for review in reviews %}
                 <li class="item">
                     {% include 'components/review/review.html.twig' with {review} %}
                 </li>

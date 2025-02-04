@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
 class Review
 {
-    use UuidTrait;
+    use UuidTrait {
+        __construct as initializeUuid;
+    }
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
@@ -22,6 +24,15 @@ class Review
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Crossing $crossing = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $date = null;
+
+    public function __construct()
+    {
+        $this->initializeUuid();
+        $this->date = new \DateTimeImmutable();
+    }
 
     public function getAuthor(): ?User
     {
@@ -55,6 +66,18 @@ class Review
     public function setCrossing(?Crossing $crossing): static
     {
         $this->crossing = $crossing;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeImmutable
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeImmutable $date): static
+    {
+        $this->date = $date;
 
         return $this;
     }

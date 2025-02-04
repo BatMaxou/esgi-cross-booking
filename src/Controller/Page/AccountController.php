@@ -2,6 +2,7 @@
 
 namespace App\Controller\Page;
 
+use App\Entity\User;
 use App\Enum\VoterRoleEnum;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,5 +42,35 @@ class AccountController extends AbstractController
     public function teams(): Response
     {
         return $this->render('page/team/list.html.twig');
+    }
+
+    #[Route(path: '/reservations', name: 'my_reservations')]
+    public function reservations(): Response
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new \LogicException('Entity User not found');
+        }
+
+        $passedReservations = [];
+        $reservations = [];
+
+        foreach ($user->getSimpleReservations() as $reservation) {
+            $date = $reservation->getCrossing()?->getDate() ?? null;
+            if (null === $date) {
+                continue;
+            }
+
+            if ($date < new \DateTime()) {
+                $passedReservations[] = $reservation;
+            } else {
+                $reservations[] = $reservation;
+            }
+        }
+
+        return $this->render('page/reservation/list.html.twig', [
+            'reservations' => $reservations,
+            'passedReservations' => $passedReservations,
+        ]);
     }
 }

@@ -14,6 +14,7 @@ use App\Form\ReviewType;
 use App\Form\SimpleReservationType;
 use App\Form\TeamReservationType;
 use App\Repository\CrossingRepository;
+use App\Repository\ReviewRepository;
 use App\Repository\SimpleReservationRepository;
 use App\Repository\SiteMessageRepository;
 use App\Repository\TeamReservationRepository;
@@ -42,6 +43,7 @@ class CrossingController extends AbstractController
         TeamReservationRepository $teamReservationRepository,
         SimpleReservationRepository $simpleReservationRepository,
         SiteMessageRepository $siteMessageRepository,
+        ReviewRepository $reviewRepository,
         MessageBusInterface $bus,
     ): Response {
         $user = $this->getUser();
@@ -154,6 +156,7 @@ class CrossingController extends AbstractController
             'isPassed' => $isPassed,
             'passedMessage' => $siteMessageRepository->findByPlace(SiteMessagePlaceEnum::PASSED_CROSSING)?->getContent() ?? '',
             'unlimitedMessage' => $siteMessageRepository->findByPlace(SiteMessagePlaceEnum::UNLIMITED_CROSSING)?->getContent() ?? '',
+            'reviews' => $reviewRepository->findAllForCrossing($crossing),
         ]);
     }
 }
