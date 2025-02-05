@@ -51,7 +51,7 @@ fixtures:
 
 deploy:
 	docker compose down
-	$(git) pull -fr
+	$(git) pull -f
 	docker compose up -d
 	$(MAKE) vendor
 	$(MAKE) database-migration
