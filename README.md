@@ -20,6 +20,7 @@ TWILIO_FROM=
 ```
 
 Si besoin de charger des fixtures, il faudra ajouter un numéro de téléphone dans la variable :
+
 Format : +33*********
 
 ```env
@@ -41,7 +42,7 @@ make fixtures
 
 Compte admin :
 
-- email : adminbg@gmail.com
+- email : admin@gmail.com
 - mdp : azerty
 
 ## Tests
